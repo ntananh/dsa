@@ -7,17 +7,19 @@ package heapsort;
 
 /**
  *
- * @author Dell
+ * @author Tấn Anh
  */
 public class Main {
     public static void main(String[] args) {
         
         HeapSort hs = new HeapSort();
         
-        int arr[] = { 4, 10, 3, 5, 1 };
+        int[] arr = { 4, 10, 3, 5, 1 };
+
+        
         hs.displayHeap(arr);
         hs.sort(arr);
-        System.out.println("");
+        System.out.println("\n\nMảng sau khi sắp xếp: ");
         hs.displayHeap(arr);
         
     }

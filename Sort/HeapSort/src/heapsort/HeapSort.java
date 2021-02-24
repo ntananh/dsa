@@ -15,14 +15,14 @@ public class HeapSort {
     /*
     *   Size = arr.length;
     *
-    *   Left child = (2 * i) + 1;
-    *   Right child = (2 * i) + 2;
+    *   Left child = 2 * i;
+    *   Right child = (2 * i) + 1;
     *   Parent = (i - 1) / 2;
     *   Last parent = (size / 2) - 1;
     *
     */
     
-    //Hiển thị 
+    //Hiển thị mảng
     public void displayHeap(int[] arr){
         
         System.out.print("[ ");
@@ -34,7 +34,7 @@ public class HeapSort {
     }
     
     
-    //
+    // Sắp xếp
     public void sort(int[] arr){
         
         int size = arr.length;
@@ -57,12 +57,12 @@ public class HeapSort {
         }
     } 
     
-    //Vun đống bắt đầu từ index = 0 (Root index = 0)
+    //Vun đống bắt đầu từ index = i
     public void heapify(int[] arr, int n, int i){
         
-        int largest = i; //Khởi tạo largest như gốc
-        int left = (2 * i) + 1; // Khởi tạo left child
-        int right = (2 * i) + 2; // Khởi tạo right child
+        int largest = i;            //Khởi tạo largest như gốc
+        int left = (2 * i);     // Khởi tạo left child
+        int right = (2 * i) + 1;    // Khởi tạo right child
         
          // Nếu nút con bên trái lớn hơn largest
         if ((left < n) && (arr[left] > arr[largest]))  {
@@ -74,14 +74,13 @@ public class HeapSort {
             largest = right;
         }
         
-        
          // Nếu largest không phải là root (max heap ==> root max)
         if(largest != i){
             
             //Nếu largest không phải là gốc thì chuyển 
             swap(arr, i, largest);
             
-            //Vun đống lại các cây con phía dưới
+            //Vun đống lại các cây con phía dưới bị ảnh hưởng
             heapify(arr, n, largest);
         }
         
