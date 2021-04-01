@@ -11,7 +11,7 @@ package recursion;
  */
 public class Recursion {
     
-    static int n1= 0, n2 = 1, n3;
+    static int n1= 0, n2 = 1, n3;   
     
     public static int GT(int n){
         if (n == 1) {
