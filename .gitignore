@@ -12,3 +12,7 @@ dist/
 nbdist/
 .nb-gradle/
 out/
+.idea
+*.iml
+out
+gen
