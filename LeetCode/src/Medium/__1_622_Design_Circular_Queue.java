@@ -2,7 +2,6 @@ package Medium;
 
 // Your MyCircularQueue object will be instantiated and called as such:
 
-
 public class __1_622_Design_Circular_Queue {
     int front;
     int rear;
