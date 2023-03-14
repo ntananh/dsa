@@ -1,4 +1,4 @@
-package Medium;
+package medium;
 
 // Your MyCircularQueue object will be instantiated and called as such:
 

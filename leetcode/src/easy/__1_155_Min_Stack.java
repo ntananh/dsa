@@ -1,4 +1,4 @@
-package Easy;
+package easy;
 
 class Node {
     int val;

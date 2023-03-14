@@ -1,4 +1,4 @@
-package Easy;
+package easy;
 
 public class __2_1295_FindNumbers_with_EvenNumber_of_Digits {
     public static void main(String[] args) {

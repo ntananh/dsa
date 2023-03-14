@@ -1,4 +1,4 @@
-package Medium;
+package medium;
 
 
 // * Definition for singly-linked list.
