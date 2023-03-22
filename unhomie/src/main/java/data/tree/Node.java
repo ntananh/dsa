@@ -1,13 +1,13 @@
 package data.tree;
 
 public class Node {
-    int data;
-    Node leftNode;
-    Node rightNode;
+    int value;
+    Node left;
+    Node right;
 
-    public Node(int data, Node leftNode, Node rightNode) {
-        this.data = data;
-        this.leftNode = leftNode;
-        this.rightNode = rightNode;
+    public Node(int value, Node left, Node right) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
     }
 }
