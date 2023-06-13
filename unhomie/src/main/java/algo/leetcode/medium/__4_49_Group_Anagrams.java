@@ -1,4 +1,4 @@
-package algo.leetcode.easy;
+package algo.leetcode.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class __6_49_Group_Anagrams {
+public class __4_49_Group_Anagrams {
 
     static class Solution {
         public static List<List<String>> groupAnagrams(String[] strs) {

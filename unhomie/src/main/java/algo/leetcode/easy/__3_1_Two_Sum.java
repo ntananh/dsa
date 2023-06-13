@@ -15,16 +15,16 @@ public class __3_1_Two_Sum {
         System.out.println(Arrays.toString(res));
 
     }
-}
 
-class Solution_1 {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> mapNums = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (mapNums.containsKey(target - nums[i]))
-                return new int[] {mapNums.get(target - nums[i]), i};
-            mapNums.put(nums[i], i);
+    static class Solution_1 {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> mapNums = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                if (mapNums.containsKey(target - nums[i]))
+                    return new int[] {mapNums.get(target - nums[i]), i};
+                mapNums.put(nums[i], i);
+            }
+            return new int[]{0, 0};
         }
-        return new int[]{0, 0};
     }
 }

@@ -81,9 +81,9 @@ buildNumber.properties
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
 # .idea/modules.xml
-# .idea/*.iml
+# .idea/*.ipml
 # .idea/modules
-# *.iml
+# *.ipml
 # *.ipr
 
 # CMake

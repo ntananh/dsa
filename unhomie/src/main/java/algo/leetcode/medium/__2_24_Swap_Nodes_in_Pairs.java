@@ -1,47 +1,57 @@
 package algo.leetcode.medium;
 
 
-// * Definition for singly-linked list.
-class ListNode {
-      int val;
-      ListNode next;
-      ListNode() {}
-      ListNode(int val) { this.val = val; }
-      ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-
-
-}
-
-class Solution {
-    public ListNode swapPairs(ListNode head) {
-        if (head == null) return null;
-        if (head.next == null) return head;
-
-        // THTQ
-        ListNode nextNode = head.next;
-
-        // Swap
-        head.next = nextNode.next;
-        nextNode.next = head;
-
-        ListNode newNode = swapPairs(head.next);
-
-        head.next = newNode;
-
-        return nextNode;
-
-    }
-
-    public void printList(ListNode head){
-        while (head != null){
-            System.out.print(head.val + " ");
-            head = head.next;
-        }
-        System.out.println();
-    }
-}
-
 public class __2_24_Swap_Nodes_in_Pairs {
+
+    // * Definition for singly-linked list.
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+
+
+    }
+
+    static class Solution {
+        public ListNode swapPairs(ListNode head) {
+            if (head == null) return null;
+            if (head.next == null) return head;
+
+            // THTQ
+            ListNode nextNode = head.next;
+
+            // Swap
+            head.next = nextNode.next;
+            nextNode.next = head;
+
+            ListNode newNode = swapPairs(head.next);
+
+            head.next = newNode;
+
+            return nextNode;
+
+        }
+
+        public void printList(ListNode head) {
+            while (head != null) {
+                System.out.print(head.val + " ");
+                head = head.next;
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
 
@@ -49,7 +59,9 @@ public class __2_24_Swap_Nodes_in_Pairs {
         ListNode n2 = new ListNode(2);
         ListNode n3 = new ListNode(3);
         ListNode n4 = new ListNode(4);
-        n1.next = n2; n2.next = n3; n3.next = n4;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
 
         s.printList(n1);
 
