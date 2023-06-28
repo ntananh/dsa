@@ -3,13 +3,58 @@ package data.tree;
 public class BinaryTree {
     Node root;
 
-    public Node insert(Node root, int value) {
-        if (root == null) return new Node(value, null, null);
-        if (value > root.value) root.right = insert(root.right, value);
-        else if (value < root.value) root.left = insert(root.left, value);
+    public void insert(int value) {
+        root = insertKey(root, value);
+    }
+
+    public Node insertKey(Node root, int value) {
+        if (root == null) {
+            return new Node(value, null, null);
+        }
+        if (value > root.value) {
+            root.right = insertKey(root.right, value);
+        } else if (value < root.value) {
+            root.left = insertKey(root.left, value);
+        }
         return root;
     }
 
+    public void delete(int value) {
+        root = deleteKey(root, value);
+    }
+
+    public Node deleteKey(Node root, int value) {
+        if (root == null) {
+            return null;
+        }
+        if (value < root.value) {
+            root.left = deleteKey(root.left, value);
+        }else if (value > root.value) {
+            root.right = deleteKey(root.right, value);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+            root.value = minVal(root.right);
+            root.right = deleteKey(root.right, root.value);
+        }
+        return root;
+    }
+
+    public int minVal(Node root) {
+        int min = root.value;
+        while (root.left != null) {
+            min = root.left.value;
+            root = root.left;
+        }
+        return min;
+    }
+
+    public void inOrder() {
+        traverseInOrder(root);
+    }
     // Traverse Inorder
     public void traverseInOrder(Node node) {
         if (node != null) {
@@ -36,15 +81,18 @@ public class BinaryTree {
     }
 
     public static void main(String[] args) {
-        BinaryTree binaryTree = new BinaryTree();
-        binaryTree.root = new Node(3, null, null);
-        binaryTree.insert(binaryTree.root, 5);
-        binaryTree.insert(binaryTree.root, 6);
-        binaryTree.insert(binaryTree.root, 4);
-        binaryTree.insert(binaryTree.root, 7);
-        binaryTree.insert(binaryTree.root, 2);
-        binaryTree.insert(binaryTree.root, 1);
+        BinaryTree tree = new BinaryTree();
+        tree.insert(8);
+        tree.insert(3);
+        tree.insert(1);
+        tree.insert(6);
+        tree.insert(7);
+        tree.insert(10);
+        tree.insert(14);
+        tree.insert(4);
 
-        binaryTree.traverseInOrder(binaryTree.root);
+        tree.inOrder();
+
+        tree.delete(1);
     }
 }
