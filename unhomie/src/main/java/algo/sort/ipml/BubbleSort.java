@@ -5,6 +5,9 @@ import algo.sort.Sort;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Idea: elements with smaller values will float to the front of the array
+ */
 public class BubbleSort implements Sort<Integer> {
     @Override
     public List<Integer> sort(List<Integer> source) {
