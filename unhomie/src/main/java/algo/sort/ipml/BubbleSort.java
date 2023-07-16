@@ -2,31 +2,34 @@ package algo.sort.ipml;
 
 import algo.sort.Sort;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Idea: elements with smaller values will float to the front of the array
  */
-public class BubbleSort implements Sort<Integer> {
+public class BubbleSort implements Sort {
     @Override
-    public List<Integer> sort(List<Integer> source) {
-        List<Integer> sorted = new ArrayList<>(source);
-
-        for (int i = 0; i < source.size(); i++) {
-            for (int j = i + 1; j < source.size(); j++) {
-                if (sorted.get(i) > sorted.get(j)) {
-                    swap(sorted, i, j);
+    public void sort(int[] source) {
+        for (int i = 0; i < source.length; i++) {
+            for (int j = i + 1; j < source.length; j++) {
+                if (source[i] > source[j]) {
+                    swap(source, i, j);
                 }
             }
         }
-        return sorted;
     }
 
-    public void swap(List<Integer> source, int i, int j) {
-        int valueAtI  = source.get(i);
-        int valueAtJ  = source.get(j);
-        source.set(i, valueAtJ);
-        source.set(j, valueAtI);
+    public void swap(int[] source, int i, int j) {
+        int tmp  = source[i];
+        source[i] = source[j];
+        source[j] = tmp;
     }
+
+    public static void main(String[] args) {
+        int[] source = {5, 2, 1, 6, 7,0, 3, 4};
+        System.out.println("Before sort : " + Arrays.toString(source));
+        new BubbleSort().sort(source);
+        System.out.println("Sorted      : " + Arrays.toString(source));
+    }
+
 }

@@ -1,7 +1,5 @@
 package algo.sort;
 
-import java.util.List;
-
-public interface Sort<T> {
-    List<T> sort(List<T> source);
+public interface Sort {
+    void sort(int[] source);
 }
