@@ -1,6 +1,6 @@
 package algo.leetcode.medium;
 
-public class __10_167_Two_Sum_II_Input_Array_Is_Sorted {
+public class __8_167_Two_Sum_II_Input_Array_Is_Sorted {
 
     // Two pointer
     public static int[] twoSum(int[] numbers, int target) {

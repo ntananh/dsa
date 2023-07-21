@@ -10,7 +10,7 @@ import java.util.Set;
  * Example  : row idx (5) and column idx (5) => cube is (1,1)
  *            row idx (7) and column idx (8) => cube is (2,2)
  */
-public class __6_36_Valid_Sudoku {
+public class __4_36_Valid_Sudoku {
 
     public static boolean isValidSudoku(char[][] board) {
         Set<String> seen = new HashSet<>();

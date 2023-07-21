@@ -11,7 +11,7 @@ import java.util.List;
  * Because strs[i] contains any possible character out of 256 valid ASCII characters.
  * And ASCII also contains special character like ?!@#$(, we cannot use the delimiter only.
  */
-public class __7_271_Encode_and_Decode_String {
+public class __5_271_Encode_and_Decode_String {
 
     private static final char DELIMITER = '#';
 

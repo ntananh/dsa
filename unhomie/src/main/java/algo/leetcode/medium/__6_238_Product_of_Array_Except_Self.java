@@ -9,7 +9,7 @@ package algo.leetcode.medium;
  * postfix  : [ 24| 12| 4 | 4 ]
  * output   : [ 24| 12| 8 | 6 ]
  */
-public class __8_238_Product_of_Array_Except_Self {
+public class __6_238_Product_of_Array_Except_Self {
     public static int[] productExceptSelf(int[] nums) {
         int[] answers = new int[nums.length];
         int prefix = 1;

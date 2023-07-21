@@ -2,7 +2,7 @@ package algo.leetcode.medium;
 
 import java.util.*;
 
-public class __9_347_Top_K_Frequent_Elements {
+public class __7_347_Top_K_Frequent_Elements {
 
     /*
      * Idea: Add the array to map<value, frequent>
