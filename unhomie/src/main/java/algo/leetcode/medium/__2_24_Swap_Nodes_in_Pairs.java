@@ -37,7 +37,7 @@ public class __2_24_Swap_Nodes_in_Pairs {
 
         ListNode newList = s.swapPairs(n1);
 
-		Utils.printList(newList);
+		Utils.printLinkedList(newList);
 	}
 
 }

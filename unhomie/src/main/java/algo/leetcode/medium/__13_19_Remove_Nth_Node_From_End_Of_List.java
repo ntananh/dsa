@@ -37,7 +37,7 @@ public class __13_19_Remove_Nth_Node_From_End_Of_List {
 
 		s.removeNthFromEnd(n1, 2);
 
-		Utils.printList(n1);
+		Utils.printLinkedList(n1);
 	}
 }
 
