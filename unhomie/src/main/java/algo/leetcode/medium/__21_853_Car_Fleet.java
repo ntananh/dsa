@@ -4,35 +4,20 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * N car: start at mile 0 try to reach the [target]
- * 2 arrays, length [n]
- * int[] position  : position[i] is the starting point of ith car.
- * int[] speed     : speed[i] is the speed of ith car.
  * <p>
- * Constrains:
- * a car cannot pass another
- * can catch up then travel next to at the speed of slower car.
+ * Sort cars by the start positions pos
+ * Loop on each car from the end to the beginning
+ * Calculate its time needed to arrive the target
+ * cur records the current biggest time (the slowest)
+ * </p>
  * <p>
- * Car fleet:
- * a car or cars driving next to each other.
- * speed of car fleet is the slowest one
- * if a car catches up to a car fleet at the mile target -> it's a part of the car fleet
+ * If another car needs less or equal time than cur,
+ * it can catch up this car fleet.
+ * </p>
  * <p>
- * Return:
- * number of car fleet will arrive at the target
- * <p>
- * Input: target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3] => Output: 3
- * <p>
- * Explanation:
- * The cars starting at 10 (speed 2) and 8 (speed 4) become a fleet, meeting each other at 12.
- * <p>
- * The fleet forms at target.
- * <p>
- * The car starting at 0 (speed 1) does not catch up to any other car, so it is a fleet by itself.
- * <p>
- * The cars starting at 5 (speed 1) and 3 (speed 3) become a fleet, meeting each other at 6.
- * <p>
- * The fleet moves at speed 1 until it reaches target.
+ * If another car needs more time, it will be the new slowest car,
+ * and becomes the new lead of a car fleet.
+ * </p>
  */
 public class __21_853_Car_Fleet {
 	public static int carFleet(int target, int[] position, int[] speed) {
