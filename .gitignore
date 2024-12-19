@@ -1,4 +1,4 @@
-**/target### Java template
+
 # Compiled class file
 *.class
 
@@ -96,6 +96,8 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
+.idea/
+
 out/
 
 # mpeltonen/sbt-idea plugin
