@@ -14,15 +14,16 @@ public class __33_2270_Number_of_Ways_to_Split_Array {
      * @return the number of valid splits in nums.
      */
     public static int waysToSplitArray(int[] nums) {
-        long totalSum = 0, left = 0;
-        for (int num : nums) totalSum += num;
+        long leftSum = 0, rightSum = 0; // should long to prevent overflow
+        for (int num : nums) rightSum += num;
 
-        int res = 0;
+        int validSplits = 0;
         for (int i = 0; i < nums.length - 1; i++) {
-            left += nums[i];
-            if (left >= totalSum - left) res++;
+            leftSum += nums[i];
+            rightSum -= nums[i];
+            if (leftSum >= rightSum) validSplits++;
         }
 
-        return res;
+        return validSplits;
     }
 }
