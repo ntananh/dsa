@@ -97,7 +97,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-.idea/
+.idea/*
 
 out/
 
@@ -140,3 +140,4 @@ Cargo.lock
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
 
+!/.idea/
