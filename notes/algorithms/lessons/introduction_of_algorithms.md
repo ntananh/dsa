@@ -350,26 +350,74 @@ This is just notation representing bound of a function.
 > Big-Oh and Omega use when not sure about the exact one (Theta)
 ### Properties of Asymptotic Notations.
 #### General Properties.
-1. If $f(x)$ is $O(g(n))$ then $a \cdot f(x)$ is $O(g(n))$
-	 eg: $f(n) = 2n^2 + 5$ is $O(n^2)$
-	then: $7 \cdot f(n)$ is $O(g(n))$
+1. If $f(x)$ is $O(g(n))$ then $a \cdot f(n)$ is $O(g(n))$
+	eg      : $f(n) = 2n^2 +5$ is $O(n^2)$
+	then  : $7 \cdot f(n) = 7(2n^2 + 5)$
+			    = $14n^2 + 35$ is $O(n^2)$
+	
 2. If $f(x)$ is $\Omega(g(n))$ then $a \cdot f(x)$ is $\Omega(g(n))$
+
 3. If $f(x)$ is $\Theta(g(n))$ then $a \cdot f(x)$ is $\Theta(g(n))$
 #### Reflexive
+1. If $f(x)$ is given then $f(n)$ is $O(f(n))$
+	eg  : $f(n) = n^2$ is $O(n^2)$ 
+
+#### Transitive
+1. If $f(n)$ is $O(g(n))$ and  $g(n)$ is $O(h(n))$
+	$\implies$ $f(n) = O(h(n))$
+	eg : $f(n) = n;\ g(n) = n^2;\ h(n) = n^3$ 
+	- $n\ is\  O(n^2)$ 
+	- $n^2\ is\  O(n^3)$ 
+	$\boldsymbol{\Rightarrow n\ is\  O(n^3)}$ 
+#### Symmetric
+
+1. If $f(n)$ is $\Theta(g(n))$  then $g(n)$ is $\Theta(f(n))$ . True only for $\Theta$
+	eg : $f(n) = n^2$; $g(n) = n^2$ 
+	- $f(n) = \Theta(n^2)$
+	- $g(n) = \Theta(n^2)$
+#### Transpose Symmetric.
+> True for $O$ and $\varOmega$ 
+
+1. If $f(n) = O(g(n))$ then $g(n)  = \Omega(f(n))$
+	eg: $f(n) = n;\ g(n) = n^2$
+	$\Rightarrow$  $n: O(n^2)$ and  $n^2: \Omega(n)$
+
+#### Extra
+1. If $f(n) = O(g(n))$ and $f(n) = \Omega(g(n))$
+	$g(n) \le f(n) \le g(n)$
+	$\Rightarrow$ $f(n) = \Theta(g(n))$
+
+2. If $f(n) = O(g(n))$ and $d(n) = O(e(n))$
+	$\Rightarrow f(n) + d(n) = O(\max(g(n), e(n))$
+	
+	eg :	 $f(n) = n  = O(n)$
+		$d(n) = n^2  = O(n^2)$
+		$f(n) + d(n) = n + n^2 = O(n^2)$
+
+3. If $f(n) = O(g(n))$ and $d(n) = O(e(n))$
+	$\Rightarrow f(n) \cdot d(n) = O(g(n) \cdot e(n)$ 
 
 
+## Comparison of functions
 
+Suppose have 2 functions:
+- $f(n) = n^2$
+- $g(n) = n^3$
 
+#### Sample data:
+![compare_functions_1.jpeg](../figures/introduction/compare_functions_1.jpeg)
 
+#### Log
+- This method apply log on both side.
+	$\log{n^2}$               $\log{n^3}$ 
+	2$\log{n}$      $\lt$     $3\log{n}$ 
 
-
-
-
-
-
-
-
-
+Revise log:
+- $log(ab)  = \log{a} + \log{b}$
+- $log(\frac{a}{b})  = \log{a} - \log{b}$
+- $log(a^b)  = b\log{a}$
+- $a^{log_c^b} = b^{log_c^a}$
+- $a^b= n \Rightarrow b = \log_a^n$
 
 
 
