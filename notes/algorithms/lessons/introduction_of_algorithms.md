@@ -419,6 +419,7 @@ Revise log:
 - $a^{log_c^b} = b^{log_c^a}$
 - $a^b= n \Rightarrow b = \log_a^n$
 
+https://www.youtube.com/watch?v=mwN18xfwNhk&list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O&index=14&ab_channel=AbdulBari
 
 
 
