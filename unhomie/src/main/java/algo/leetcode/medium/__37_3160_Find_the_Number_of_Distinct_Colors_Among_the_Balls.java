@@ -3,7 +3,7 @@ package algo.leetcode.medium;
 import java.util.HashMap;
 import java.util.Map;
 
-public class __41_3160_Find_the_Number_of_Distinct_Colors_Among_the_Balls {
+public class __37_3160_Find_the_Number_of_Distinct_Colors_Among_the_Balls {
 
     public int[] queryResults(int limit, int[][] queries) {
         final int n = queries.length;

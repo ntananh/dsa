@@ -3,7 +3,7 @@ package algo.leetcode.medium;
 import java.util.HashMap;
 import java.util.Map;
 
-public class __34_424_Longest_Repeating_Character_Replacement {
+public class __31_424_Longest_Repeating_Character_Replacement {
 
     /**
      * <p>

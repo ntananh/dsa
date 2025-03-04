@@ -1,6 +1,6 @@
 package algo.leetcode.medium;
 
-public class __31_769_Max_Chunks_To_Make_Sorted {
+public class __29_769_Max_Chunks_To_Make_Sorted {
 
 	/**
 	 * <p>

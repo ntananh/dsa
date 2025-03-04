@@ -2,7 +2,7 @@ package algo.leetcode.medium;
 
 import data.dto.ListNode;
 
-public class __38_143_Reorder_List {
+public class __34_143_Reorder_List {
 
     /**
      * Reorders the given linked list in-place by alternating nodes from the beginning

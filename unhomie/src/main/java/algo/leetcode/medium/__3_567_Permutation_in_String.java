@@ -3,7 +3,7 @@ package algo.leetcode.medium;
 import java.util.HashMap;
 import java.util.Map;
 
-public class __36_567_Permutation_in_String {
+public class __3_567_Permutation_in_String {
 
     /**
      * Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.

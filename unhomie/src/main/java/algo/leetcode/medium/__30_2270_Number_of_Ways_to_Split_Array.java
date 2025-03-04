@@ -1,6 +1,6 @@
 package algo.leetcode.medium;
 
-public class __33_2270_Number_of_Ways_to_Split_Array {
+public class __30_2270_Number_of_Ways_to_Split_Array {
 
     /**
      * <p>

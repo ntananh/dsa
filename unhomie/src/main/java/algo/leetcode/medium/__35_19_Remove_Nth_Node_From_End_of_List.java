@@ -2,7 +2,7 @@ package algo.leetcode.medium;
 
 import data.dto.ListNode;
 
-public class __39_19_Remove_Nth_Node_From_End_of_List {
+public class __35_19_Remove_Nth_Node_From_End_of_List {
     public ListNode removeNthFromEnd(ListNode head, int n) {
 
         ListNode dummy = new ListNode(0);

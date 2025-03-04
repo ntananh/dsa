@@ -1,6 +1,6 @@
 package algo.leetcode.medium;
 
-public class __37_1400_Construct_K_Palindrome_Strings {
+public class __33_1400_Construct_K_Palindrome_Strings {
 
     /**
      * @param s a string

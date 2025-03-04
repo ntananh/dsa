@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 
-public class __42_2349_Design_a_Number_Container_System {
+public class __38_2349_Design_a_Number_Container_System {
     static class NumberContainersMap {
         private final Map<Integer, Integer> indexToNumbers;
         private final Map<Integer, TreeSet<Integer>> numberToIndices;

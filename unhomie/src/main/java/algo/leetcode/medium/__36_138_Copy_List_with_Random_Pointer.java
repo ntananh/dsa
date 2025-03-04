@@ -2,7 +2,7 @@ package algo.leetcode.medium;
 
 import java.util.HashMap;
 
-public class __40_138_Copy_List_with_Random_Pointer {
+public class __36_138_Copy_List_with_Random_Pointer {
     public static class Node {
         int val;
         Node next;
