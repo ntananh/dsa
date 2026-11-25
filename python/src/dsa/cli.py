@@ -1,12 +1,12 @@
 """dsa: pick a LeetCode problem, test it locally, run and submit it on LeetCode.
 
-    dsa pick 217                 write leetcode/easy/__n_217_contains_duplicate/
-    dsa test 217                 run cases.txt locally
-    dsa run 217                  run cases.txt on LeetCode, fill missing expected values
-    dsa submit 217 --used hint   submit, log the help used
-    dsa start 217                restart the solve timer
-    dsa review                   problems due for spaced review
-    dsa stats                    progress counts
+dsa pick 217                 write leetcode/easy/__n_217_contains_duplicate/
+dsa test 217                 run cases.txt locally
+dsa run 217                  run cases.txt on LeetCode, fill missing expected values
+dsa submit 217 --used hint   submit, log the help used
+dsa start 217                restart the solve timer
+dsa review                   problems due for spaced review
+dsa stats                    progress counts
 """
 
 import argparse

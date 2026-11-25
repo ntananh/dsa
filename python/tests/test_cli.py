@@ -29,10 +29,17 @@ def cli(tmp_path: Path, fake_transport, question, slug_reply, capsys):
         timers=tmp_path / ".timers.json",
         dotenv=tmp_path / ".env",
     )
-    pick_replies = [slug_reply("217", "contains-duplicate"), {"data": {"question": question(217)}}]
+    pick_replies = [
+        slug_reply("217", "contains-duplicate"),
+        {"data": {"question": question(217)}},
+    ]
 
-    def run(*argv: str, replies: tuple = (), env: dict | None = None) -> tuple[int, str, str]:
-        transport = fake_transport([*pick_replies, *replies] if argv[0] == "pick" else list(replies))
+    def run(
+        *argv: str, replies: tuple = (), env: dict | None = None
+    ) -> tuple[int, str, str]:
+        transport = fake_transport(
+            [*pick_replies, *replies] if argv[0] == "pick" else list(replies)
+        )
         app = App(paths, transport, clock=lambda: NOW, env=env or {})
         code = main(list(argv), app)
         out, err = capsys.readouterr()
@@ -96,7 +103,12 @@ def test_submit_logs_help_used(cli):
     env = {"LEETCODE_SESSION": "s", "LEETCODE_CSRFTOKEN": "c"}
 
     code, out, _ = cli(
-        "submit", "217", "--used", "hint", replies=({"submission_id": 5}, ACCEPTED_CHECK), env=env
+        "submit",
+        "217",
+        "--used",
+        "hint",
+        replies=({"submission_id": 5}, ACCEPTED_CHECK),
+        env=env,
     )
 
     assert code == 0

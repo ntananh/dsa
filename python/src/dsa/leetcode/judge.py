@@ -5,7 +5,8 @@ public API and can change without notice.
 
     POST /problems/{slug}/interpret_solution/  -> {"interpret_id": ...}
     POST /problems/{slug}/submit/              -> {"submission_id": ...}
-    GET  /submissions/detail/{id}/check/       -> {"state": "PENDING" | "STARTED" | "SUCCESS", ...}
+    GET  /submissions/detail/{id}/check/       -> {"state": "SUCCESS", ...}
+                                                  (or "PENDING", "STARTED")
 """
 
 import re
@@ -38,7 +39,12 @@ STATUS_CODES = {
     15: Status.RUNTIME_ERROR,
     20: Status.COMPILE_ERROR,
 }
-ERROR_FIELDS = ("full_compile_error", "compile_error", "full_runtime_error", "runtime_error")
+ERROR_FIELDS = (
+    "full_compile_error",
+    "compile_error",
+    "full_runtime_error",
+    "runtime_error",
+)
 
 
 class JudgeClient:
@@ -56,7 +62,9 @@ class JudgeClient:
         self._poll_seconds = poll_seconds
         self._max_polls = max_polls
 
-    def interpret(self, problem: LocalProblem, code: str, data_input: str) -> JudgeResult:
+    def interpret(
+        self, problem: LocalProblem, code: str, data_input: str
+    ) -> JudgeResult:
         payload = self._payload(problem, code) | {"data_input": data_input}
         reply = self._post(INTERPRET_URL, problem, payload)
         check = self._wait(_job_id(reply, "interpret_id"), problem)
@@ -69,7 +77,11 @@ class JudgeClient:
 
     def _payload(self, problem: LocalProblem, code: str) -> dict:
         # question_id is the internal id: for 3110 it is 3379.
-        return {"lang": PYTHON_LANG, "question_id": problem.question_id, "typed_code": code}
+        return {
+            "lang": PYTHON_LANG,
+            "question_id": problem.question_id,
+            "typed_code": code,
+        }
 
     def _post(self, url: str, problem: LocalProblem, payload: dict) -> dict:
         target = url.format(slug=problem.slug)
@@ -86,7 +98,9 @@ class JudgeClient:
                 return check
             self._sleep(self._poll_seconds)
 
-        raise LeetCodeUnavailable(f"judge did not finish after {self._max_polls} checks")
+        raise LeetCodeUnavailable(
+            f"judge did not finish after {self._max_polls} checks"
+        )
 
 
 def _authorized(request: Callable[[], dict]) -> dict:

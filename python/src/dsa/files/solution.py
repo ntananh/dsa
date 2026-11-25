@@ -36,7 +36,9 @@ def render_solution(problem: Problem) -> str:
 def extract_code(text: str) -> str:
     lines = text.splitlines()
     if CODE_START not in lines or CODE_END not in lines:
-        raise InvalidSolution(f"solution.py needs the lines '{CODE_START}' and '{CODE_END}'")
+        raise InvalidSolution(
+            f"solution.py needs the lines '{CODE_START}' and '{CODE_END}'"
+        )
 
     start = lines.index(CODE_START) + 1
     end = lines.index(CODE_END)

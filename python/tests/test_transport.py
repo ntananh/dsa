@@ -62,13 +62,16 @@ def test_sends_browser_user_agent(server):
 
 
 def test_caller_user_agent_wins(server):
-    reply = UrllibTransport().post_json(f"{server}/agent", {}, {"User-Agent": "Mine/1.0"})
+    reply = UrllibTransport().post_json(
+        f"{server}/agent", {}, {"User-Agent": "Mine/1.0"}
+    )
 
     assert reply["agent"] == "Mine/1.0"
 
 
 def test_redirect_is_refused(server):
-    # urllib copies Cookie and x-csrftoken to the redirect target, which may be another host.
+    # urllib copies Cookie and x-csrftoken to the redirect target,
+    # which may be another host.
     with pytest.raises(LeetCodeUnavailable) as raised:
         UrllibTransport().post_json(f"{server}/redirect", {}, {"Cookie": "secret"})
 

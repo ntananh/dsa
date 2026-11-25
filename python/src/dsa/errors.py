@@ -41,7 +41,9 @@ class MissingCredentials(DsaError):
 
 class ProblemNotPicked(DsaError):
     def __init__(self, frontend_id: int) -> None:
-        super().__init__(f"problem {frontend_id} is not picked, run: dsa pick {frontend_id}")
+        super().__init__(
+            f"problem {frontend_id} is not picked, run: dsa pick {frontend_id}"
+        )
 
 
 class InvalidCasesFile(DsaError):

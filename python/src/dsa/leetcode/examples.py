@@ -33,4 +33,6 @@ def build_cases(
     if len(groups) != len(outputs):
         return tuple(Case(inputs) for inputs in groups)
 
-    return tuple(Case(inputs, expected) for inputs, expected in zip(groups, outputs))
+    return tuple(
+        Case(inputs, expected) for inputs, expected in zip(groups, outputs, strict=True)
+    )

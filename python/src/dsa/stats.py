@@ -21,7 +21,9 @@ class Stats:
     unproven: list[int]
 
 
-def collect_stats(problems: Sequence[LocalProblem], attempts: Iterable[Attempt]) -> Stats:
+def collect_stats(
+    problems: Sequence[LocalProblem], attempts: Iterable[Attempt]
+) -> Stats:
     accepted = _accepted_submits(attempts)
     solved = [p for p in problems if p.frontend_id in accepted]
 
@@ -38,9 +40,14 @@ def _accepted_submits(attempts: Iterable[Attempt]) -> dict[int, bool]:
     """Problem id -> True if one accept was clean."""
     accepted: dict[int, bool] = {}
     for attempt in attempts:
-        if attempt.action is not Action.SUBMIT or attempt.verdict is not Status.ACCEPTED:
+        if (
+            attempt.action is not Action.SUBMIT
+            or attempt.verdict is not Status.ACCEPTED
+        ):
             continue
-        accepted[attempt.id] = accepted.get(attempt.id, False) or attempt.is_clean_accept
+        accepted[attempt.id] = (
+            accepted.get(attempt.id, False) or attempt.is_clean_accept
+        )
     return accepted
 
 

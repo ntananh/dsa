@@ -30,9 +30,15 @@ def picked(tmp_path: Path, question, fake_transport):
         workspace.create(
             "__1_217_contains_duplicate",
             problem.difficulty,
-            {"solution.py": SOLVED, "cases.txt": cases_text, "meta.json": render_meta(problem)},
+            {
+                "solution.py": SOLVED,
+                "cases.txt": cases_text,
+                "meta.json": render_meta(problem),
+            },
         )
-        tracker = Tracker(tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now)
+        tracker = Tracker(
+            tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now
+        )
         return Tester(workspace, Runner(), tracker), tracker
 
     return build

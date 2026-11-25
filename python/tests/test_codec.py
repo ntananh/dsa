@@ -79,7 +79,12 @@ def test_any_order_sorts_top_level_only():
 def test_any_order_deep_sorts_every_level():
     output = [[2, -1, -1], [0, 1, -1]]
 
-    assert same(output, "[[-1,-1,2],[-1,0,1]]", "list<list<integer>>", CompareMode.ANY_ORDER_DEEP)
+    assert same(
+        output,
+        "[[-1,-1,2],[-1,0,1]]",
+        "list<list<integer>>",
+        CompareMode.ANY_ORDER_DEEP,
+    )
 
 
 def test_tuple_output_matches_list():
@@ -114,8 +119,11 @@ def test_double_accepts_integer_text():
     assert same_text("2", "2.00000", "double", CompareMode.EXACT)
 
 
-@pytest.mark.parametrize(("value", "type_name"), [([1, 2], "ListNode"), (5, "TreeNode")])
+@pytest.mark.parametrize(
+    ("value", "type_name"), [([1, 2], "ListNode"), (5, "TreeNode")]
+)
 def test_node_type_needs_a_node(value, type_name):
-    # A list or int returned for a node type must not encode as [] and match an empty answer.
+    # A list or int returned for a node type must not encode as []
+    # and match an empty answer.
     with pytest.raises(TypeError):
         encode(value, type_name)

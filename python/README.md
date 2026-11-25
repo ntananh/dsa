@@ -62,8 +62,10 @@ An accepted submit without help on or after the due date moves the problem to th
 * `log.jsonl` is the attempt log. Commit it.
 * `.timers.json` and `.env` are local and gitignored.
 
-## Framework tests
+## Tests, format and lint
 
 ```sh
-uv run pytest
+uv run pytest          # framework tests
+uv run ruff format .   # format, also tidies a new pick's solution.py
+uv run ruff check .    # lint
 ```

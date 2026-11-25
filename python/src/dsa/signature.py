@@ -2,7 +2,8 @@
 
 Three shapes exist:
 * function: {"name", "params", "return"}
-* in-place: a function with "output": {"paramindex": i}, the changed argument is the answer
+* in-place: a function with "output": {"paramindex": i}, the changed argument
+  is the answer
 * design:   {"classname", "constructor", "methods"}, input is calls plus arguments
 """
 

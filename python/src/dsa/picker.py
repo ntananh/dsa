@@ -28,7 +28,9 @@ class PickResult:
 
 
 class Picker:
-    def __init__(self, client: LeetCodeClient, workspace: Workspace, tracker: Tracker) -> None:
+    def __init__(
+        self, client: LeetCodeClient, workspace: Workspace, tracker: Tracker
+    ) -> None:
         self._client = client
         self._workspace = workspace
         self._tracker = tracker

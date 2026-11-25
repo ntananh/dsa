@@ -12,7 +12,13 @@ from dsa.domain import (
     overall,
 )
 from dsa.judging import RemoteRun, RemoteSubmit
-from dsa.report import format_local, format_remote_run, format_review, format_stats, format_submit
+from dsa.report import (
+    format_local,
+    format_remote_run,
+    format_review,
+    format_stats,
+    format_submit,
+)
 from dsa.scheduler import DueItem
 from dsa.stats import Stats
 
@@ -26,7 +32,10 @@ TWO_SUM = LocalProblem(
     topics=(),
     signature={
         "name": "twoSum",
-        "params": [{"name": "nums", "type": "integer[]"}, {"name": "target", "type": "integer"}],
+        "params": [
+            {"name": "nums", "type": "integer[]"},
+            {"name": "target", "type": "integer"},
+        ],
         "return": {"type": "integer[]"},
     },
     compare=CompareMode.EXACT,
@@ -35,7 +44,9 @@ TWO_SUM = LocalProblem(
 
 def result(status: Status, output: str | None = "[0,1]", **extra) -> CaseResult:
     case = Case(("[2,7,11,15]", "9"), "[0,1]")
-    return CaseResult(case, status, output, extra.get("error"), extra.get("stdout", ""), 3)
+    return CaseResult(
+        case, status, output, extra.get("error"), extra.get("stdout", ""), 3
+    )
 
 
 def test_all_accepted_summary():
@@ -45,7 +56,9 @@ def test_all_accepted_summary():
 
 
 def test_failed_case_shows_leetcode_style_block():
-    text = format_local(TWO_SUM, [result(Status.ACCEPTED), result(Status.WRONG_ANSWER, "[1,0]")])
+    text = format_local(
+        TWO_SUM, [result(Status.ACCEPTED), result(Status.WRONG_ANSWER, "[1,0]")]
+    )
 
     assert (
         "Case 2: Wrong Answer\n"
@@ -65,7 +78,11 @@ def test_accepted_case_is_one_line():
 
 
 def test_blank_lines_only_around_failure_blocks():
-    results = [result(Status.ACCEPTED), result(Status.WRONG_ANSWER, "[1,0]"), result(Status.ACCEPTED)]
+    results = [
+        result(Status.ACCEPTED),
+        result(Status.WRONG_ANSWER, "[1,0]"),
+        result(Status.ACCEPTED),
+    ]
 
     lines = format_local(TWO_SUM, results).splitlines()
 
@@ -82,7 +99,14 @@ def test_all_accepted_has_no_blank_lines():
 def test_error_and_stdout_are_shown():
     text = format_local(
         TWO_SUM,
-        [result(Status.RUNTIME_ERROR, None, error="ZeroDivisionError: division by zero", stdout="hi\n")],
+        [
+            result(
+                Status.RUNTIME_ERROR,
+                None,
+                error="ZeroDivisionError: division by zero",
+                stdout="hi\n",
+            )
+        ],
     )
 
     assert "Error     ZeroDivisionError: division by zero\n" in text
@@ -105,9 +129,7 @@ def test_accepted_submit_shows_runtime_and_memory():
     judged = JudgeResult(Status.ACCEPTED, 3, 17.8, 63, 63)
 
     assert format_submit(RemoteSubmit(TWO_SUM, judged, added_case=False)) == (
-        "Accepted 63/63\n"
-        "Runtime   3 ms\n"
-        "Memory    17.8 MB\n"
+        "Accepted 63/63\nRuntime   3 ms\nMemory    17.8 MB\n"
     )
 
 
@@ -140,11 +162,15 @@ def test_compile_error_submit_has_no_counts():
 
 
 def test_remote_run_reports_filled_values():
-    run = RemoteRun(TWO_SUM, [result(Status.ACCEPTED)], JudgeResult(Status.ACCEPTED, 5), filled=1)
+    run = RemoteRun(
+        TWO_SUM, [result(Status.ACCEPTED)], JudgeResult(Status.ACCEPTED, 5), filled=1
+    )
 
     text = format_remote_run(run)
 
-    assert text.endswith("Accepted 1/1\nRuntime   5 ms\nFilled 1 expected value in cases.txt\n")
+    assert text.endswith(
+        "Accepted 1/1\nRuntime   5 ms\nFilled 1 expected value in cases.txt\n"
+    )
 
 
 def test_review_lists_due_problems():

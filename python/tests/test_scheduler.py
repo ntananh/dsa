@@ -7,8 +7,12 @@ from dsa.tracker import Action, Attempt, Used
 INTERVALS = (1, 3, 7)
 
 
-def submit(day: str, verdict: Status = Status.ACCEPTED, used: Used = Used.NONE, id: int = 1):
-    return Attempt(id, datetime.fromisoformat(f"{day}T10:00"), Action.SUBMIT, verdict, None, used)
+def submit(
+    day: str, verdict: Status = Status.ACCEPTED, used: Used = Used.NONE, id: int = 1
+):
+    return Attempt(
+        id, datetime.fromisoformat(f"{day}T10:00"), Action.SUBMIT, verdict, None, used
+    )
 
 
 def due(attempts, today: str) -> list[DueItem]:
@@ -60,7 +64,11 @@ def test_failed_review_resets_schedule():
 
 
 def test_accept_with_help_resets_schedule():
-    attempts = [submit("2026-01-01"), submit("2026-01-02"), submit("2026-01-05", used=Used.HINT)]
+    attempts = [
+        submit("2026-01-01"),
+        submit("2026-01-02"),
+        submit("2026-01-05", used=Used.HINT),
+    ]
 
     assert due(attempts, "2026-01-06") == [DueItem(1, date(2026, 1, 6), 0)]
 
@@ -72,9 +80,13 @@ def test_failures_before_first_accept_start_nothing():
 
 
 def test_local_tests_and_runs_are_ignored():
-    test_run = Attempt(1, datetime(2026, 1, 2, 9), Action.TEST, Status.WRONG_ANSWER, None, Used.NONE)
+    test_run = Attempt(
+        1, datetime(2026, 1, 2, 9), Action.TEST, Status.WRONG_ANSWER, None, Used.NONE
+    )
 
-    assert due([submit("2026-01-01"), test_run], "2026-01-02") == [DueItem(1, date(2026, 1, 2), 0)]
+    assert due([submit("2026-01-01"), test_run], "2026-01-02") == [
+        DueItem(1, date(2026, 1, 2), 0)
+    ]
 
 
 def test_oldest_due_first():

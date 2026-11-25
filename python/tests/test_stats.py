@@ -6,7 +6,9 @@ from dsa.stats import collect_stats
 from dsa.tracker import Action, Attempt, Used
 
 
-def problem(folder: Path, id: int, difficulty: Difficulty, topics: tuple[str, ...], bounds: str):
+def problem(
+    folder: Path, id: int, difficulty: Difficulty, topics: tuple[str, ...], bounds: str
+):
     folder.mkdir(parents=True)
     (folder / "solution.py").write_text(f'"""\n{bounds}\n"""\n')
     return LocalProblem(
@@ -22,13 +24,17 @@ def problem(folder: Path, id: int, difficulty: Difficulty, topics: tuple[str, ..
     )
 
 
-def attempt(id: int, verdict: Status, action: Action = Action.SUBMIT, used: Used = Used.NONE):
+def attempt(
+    id: int, verdict: Status, action: Action = Action.SUBMIT, used: Used = Used.NONE
+):
     return Attempt(id, datetime(2026, 1, 1), action, verdict, None, used)
 
 
 def test_counts_solved_by_difficulty_and_topic(tmp_path: Path):
     problems = [
-        problem(tmp_path / "a", 1, Difficulty.EASY, ("Array", "Hash Table"), "Time: O(n)"),
+        problem(
+            tmp_path / "a", 1, Difficulty.EASY, ("Array", "Hash Table"), "Time: O(n)"
+        ),
         problem(tmp_path / "b", 2, Difficulty.MEDIUM, ("Array",), "Time: O(n)"),
         problem(tmp_path / "c", 3, Difficulty.EASY, ("Array",), "Time: O(n)"),
     ]
@@ -56,7 +62,9 @@ def test_lists_solved_problems_without_proven_bounds(tmp_path: Path):
         problem(tmp_path / "c", 3, Difficulty.EASY, (), "Time:  O(?)"),
     ]
 
-    stats = collect_stats(problems, [attempt(1, Status.ACCEPTED), attempt(2, Status.ACCEPTED)])
+    stats = collect_stats(
+        problems, [attempt(1, Status.ACCEPTED), attempt(2, Status.ACCEPTED)]
+    )
 
     # 3 is not solved yet, so a missing bound there is expected.
     assert stats.unproven == [1]

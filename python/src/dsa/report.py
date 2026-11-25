@@ -2,7 +2,14 @@
 
 from collections.abc import Mapping, Sequence
 
-from dsa.domain import CaseResult, Difficulty, JudgeResult, LocalProblem, Status, overall
+from dsa.domain import (
+    CaseResult,
+    Difficulty,
+    JudgeResult,
+    LocalProblem,
+    Status,
+    overall,
+)
 from dsa.judging import RemoteRun, RemoteSubmit
 from dsa.picker import PickOutcome, PickResult
 from dsa.scheduler import DueItem
@@ -16,7 +23,9 @@ NOT_PICKED = "(not picked)"
 
 def format_local(problem: LocalProblem, results: Sequence[CaseResult]) -> str:
     names = input_names(problem.signature)
-    blocks = [_case_block(number, result, names) for number, result in enumerate(results, 1)]
+    blocks = [
+        _case_block(number, result, names) for number, result in enumerate(results, 1)
+    ]
 
     accepted = sum(1 for r in results if r.status is Status.ACCEPTED)
     verdict = overall(results)
@@ -93,7 +102,9 @@ def format_review(items: Sequence[DueItem], titles: Mapping[int, str]) -> str:
     rows = [f"{len(items)} due for review"]
     for item in items:
         title = titles.get(item.id, NOT_PICKED)
-        rows.append(f"  {item.id}. {title}  due {item.due.isoformat()}, stage {item.stage}")
+        rows.append(
+            f"  {item.id}. {title}  due {item.due.isoformat()}, stage {item.stage}"
+        )
     return "\n".join(rows) + "\n"
 
 
@@ -108,7 +119,9 @@ def format_stats(stats: Stats) -> str:
     if stats.topics:
         # Most practiced first, then by name so the order is stable.
         ranked = sorted(stats.topics.items(), key=lambda pair: (-pair[1], pair[0]))
-        rows.append("Topics: " + ", ".join(f"{topic} {count}" for topic, count in ranked))
+        rows.append(
+            "Topics: " + ", ".join(f"{topic} {count}" for topic, count in ranked)
+        )
     if stats.unproven:
         rows.append("Still O(?): " + ", ".join(str(id) for id in stats.unproven))
     return "\n".join(rows) + "\n"
@@ -134,7 +147,7 @@ def _memory(judged: JudgeResult) -> str:
 
 
 def _inputs(names: Sequence[str], values: Sequence[str]) -> list[str]:
-    return [f"{name} = {value}" for name, value in zip(names, values)]
+    return [f"{name} = {value}" for name, value in zip(names, values, strict=False)]
 
 
 def _plural(count: int, noun: str) -> str:
@@ -144,7 +157,7 @@ def _plural(count: int, noun: str) -> str:
 def _join_blocks(blocks: Sequence[str]) -> str:
     """One-line blocks stack. A blank line sets off each multi-line block."""
     text = ""
-    for previous, block in zip([None, *blocks], blocks):
+    for previous, block in zip([None, *blocks], blocks, strict=False):
         if previous is not None and (_is_multiline(previous) or _is_multiline(block)):
             text += "\n"
         text += block

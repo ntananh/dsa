@@ -21,7 +21,9 @@ def question_reply(question: dict | None) -> dict:
 
 def test_find_slug_matches_exact_id_not_search_prefix(fake_transport):
     # Searching "1" also returns 10, 100 and so on.
-    transport = fake_transport([list_reply(("10", "regular-expression"), ("1", "two-sum"))])
+    transport = fake_transport(
+        [list_reply(("10", "regular-expression"), ("1", "two-sum"))]
+    )
 
     assert LeetCodeClient(transport).find_slug(1) == "two-sum"
 

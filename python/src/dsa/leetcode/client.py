@@ -71,7 +71,9 @@ class LeetCodeClient:
         raise ProblemNotFound(frontend_id)
 
     def fetch_problem(self, slug: str) -> Problem:
-        data = self._query(QUESTION_QUERY, {"slug": slug}, PROBLEM_URL.format(slug=slug))
+        data = self._query(
+            QUESTION_QUERY, {"slug": slug}, PROBLEM_URL.format(slug=slug)
+        )
         question = data["question"]
         if question is None:
             raise ProblemNotFound(slug)

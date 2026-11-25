@@ -4,9 +4,9 @@ import pytest
 
 from dsa.domain import Case, LocalProblem, Status
 from dsa.errors import InvalidCasesFile, InvalidSolution
+from dsa.execution import MAX_STDOUT_CHARS
 from dsa.files.meta import parse_meta, render_meta
 from dsa.leetcode.client import LeetCodeClient
-from dsa.execution import MAX_STDOUT_CHARS
 from dsa.runner import Runner
 
 # Short, so the endless-loop test stays fast. Real runs use the 2 s default.
@@ -66,7 +66,9 @@ def test_case_without_expected_is_unchecked(local):
 
 
 def test_exception_is_runtime_error_with_message(local):
-    code = CONTAINS_DUPLICATE.replace("return len(set(nums)) < len(nums)", "return 1 // 0")
+    code = CONTAINS_DUPLICATE.replace(
+        "return len(set(nums)) < len(nums)", "return 1 // 0"
+    )
 
     result = run(local(217, code), DUPLICATE_CASES[:1])[0]
 
@@ -76,7 +78,8 @@ def test_exception_is_runtime_error_with_message(local):
 
 def test_endless_loop_times_out_and_other_cases_still_run(local):
     code = CONTAINS_DUPLICATE.replace(
-        "        return", "        while nums == [1, 2, 3, 4]:\n            pass\n        return"
+        "        return",
+        "        while nums == [1, 2, 3, 4]:\n            pass\n        return",
     )
 
     results = run(local(217, code), DUPLICATE_CASES)
@@ -93,7 +96,9 @@ def test_syntax_error_is_compile_error(local):
 
 
 def test_print_output_is_captured(local):
-    code = CONTAINS_DUPLICATE.replace("        return", "        print('seen', nums)\n        return")
+    code = CONTAINS_DUPLICATE.replace(
+        "        return", "        print('seen', nums)\n        return"
+    )
 
     result = run(local(217, code), DUPLICATE_CASES[:1])[0]
 
@@ -111,7 +116,10 @@ def test_missing_solution_file(local):
 
 def test_bad_input_line_names_the_case(local):
     with pytest.raises(InvalidCasesFile, match="case 2"):
-        run(local(217, CONTAINS_DUPLICATE), [DUPLICATE_CASES[0], Case(("[1,2",), "true")])
+        run(
+            local(217, CONTAINS_DUPLICATE),
+            [DUPLICATE_CASES[0], Case(("[1,2",), "true")],
+        )
 
 
 def test_in_place_problem_compares_the_changed_argument(local):
@@ -199,7 +207,9 @@ class Solution:
 def test_error_in_solution_constructor_is_runtime_error(local):
     code = CONTAINS_DUPLICATE.replace(
         "    def containsDuplicate",
-        "    def __init__(self):\n        raise ValueError('boom')\n\n    def containsDuplicate",
+        "    def __init__(self):\n"
+        "        raise ValueError('boom')\n\n"
+        "    def containsDuplicate",
     )
 
     results = run(local(217, code), DUPLICATE_CASES)
@@ -209,7 +219,9 @@ def test_error_in_solution_constructor_is_runtime_error(local):
 
 
 def test_stdout_is_capped_while_printing(local):
-    code = CONTAINS_DUPLICATE.replace("        return", "        print('x' * 10_000_000)\n        return")
+    code = CONTAINS_DUPLICATE.replace(
+        "        return", "        print('x' * 10_000_000)\n        return"
+    )
 
     results = run(local(217, code), DUPLICATE_CASES[:1])
 
@@ -218,7 +230,8 @@ def test_stdout_is_capped_while_printing(local):
 
 
 def test_plain_list_for_list_node_is_wrong_answer(local):
-    # LeetCode rejects a Python list where a ListNode is due, even with the right values.
+    # LeetCode rejects a Python list where a ListNode is due,
+    # even with the right values.
     code = """
 class Solution:
     def reverseList(self, head):

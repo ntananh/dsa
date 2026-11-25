@@ -23,7 +23,7 @@ class Transport(Protocol):
 
 
 class _RefuseRedirect(urllib.request.HTTPRedirectHandler):
-    """urllib copies Cookie and x-csrftoken to a redirect target, which may be another host."""
+    """urllib copies Cookie and x-csrftoken to a redirect target, maybe another host."""
 
     def redirect_request(self, *_: object) -> None:
         # None makes urllib raise the 3xx as an HTTPError.
@@ -57,4 +57,6 @@ class UrllibTransport:
             return json.loads(body)
         except ValueError as error:
             # Cloudflare challenge pages arrive as HTML with status 200.
-            raise LeetCodeUnavailable("reply is not JSON (Cloudflare check?)") from error
+            raise LeetCodeUnavailable(
+                "reply is not JSON (Cloudflare check?)"
+            ) from error

@@ -46,7 +46,9 @@ def picked(tmp_path: Path, question, fake_transport):
                 "meta.json": render_meta(problem),
             },
         )
-        tracker = Tracker(tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now)
+        tracker = Tracker(
+            tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now
+        )
         fake = FakeJudge(result)
         return Judging(workspace, fake, tracker), fake, tracker, folder / "cases.txt"
 
@@ -54,7 +56,9 @@ def picked(tmp_path: Path, question, fake_transport):
 
 
 def test_run_fills_missing_expected_values(picked):
-    result = judge_result(Status.ACCEPTED, outputs=("true", "true"), expected_outputs=("true", "true"))
+    result = judge_result(
+        Status.ACCEPTED, outputs=("true", "true"), expected_outputs=("true", "true")
+    )
     judging, fake, tracker, cases_path = picked("[1,1]\ntrue\n\n[5,5]\n", result)
 
     run = judging.run(217)
@@ -67,7 +71,9 @@ def test_run_fills_missing_expected_values(picked):
 
 def test_run_does_not_change_existing_expected(picked):
     # The user's expected line stays, even when LeetCode's answer differs.
-    result = judge_result(Status.WRONG_ANSWER, outputs=("false",), expected_outputs=("true",))
+    result = judge_result(
+        Status.WRONG_ANSWER, outputs=("false",), expected_outputs=("true",)
+    )
     judging, _, _, cases_path = picked("[1,1]\nfalse\n", result)
 
     assert judging.run(217).filled == 0
@@ -76,7 +82,9 @@ def test_run_does_not_change_existing_expected(picked):
 
 def test_run_judges_each_case_against_expected(picked):
     result = judge_result(
-        Status.WRONG_ANSWER, outputs=("true", "true"), expected_outputs=("true", "false")
+        Status.WRONG_ANSWER,
+        outputs=("true", "true"),
+        expected_outputs=("true", "false"),
     )
     judging, _, _, _ = picked("[1,1]\ntrue\n\n[1,2]\n", result)
 
@@ -93,12 +101,18 @@ def test_run_error_marks_cases_without_output(picked):
     first, second = judging.run(217).results
 
     assert first.status is Status.ACCEPTED
-    assert (second.status, second.output, second.error) == (Status.RUNTIME_ERROR, None, "IndexError")
+    assert (second.status, second.output, second.error) == (
+        Status.RUNTIME_ERROR,
+        None,
+        "IndexError",
+    )
 
 
 def test_run_with_missing_outputs_fails_closed(picked):
     # A finished run must answer every case, or a pass could hide a gap.
-    result = judge_result(Status.ACCEPTED, outputs=("true",), expected_outputs=("true",))
+    result = judge_result(
+        Status.ACCEPTED, outputs=("true",), expected_outputs=("true",)
+    )
     judging, _, _, _ = picked("[1,1]\ntrue\n\n[1,2]\nfalse\n", result)
 
     with pytest.raises(LeetCodeUnavailable, match="1 outputs for 2 cases"):
@@ -136,13 +150,19 @@ def test_submit_logs_help_and_stats(picked):
     judging.submit(217, Used.HINT)
 
     attempt = tracker.attempts()[0]
-    assert (attempt.action, attempt.verdict, attempt.used) == (Action.SUBMIT, Status.ACCEPTED, Used.HINT)
+    assert (attempt.action, attempt.verdict, attempt.used) == (
+        Action.SUBMIT,
+        Status.ACCEPTED,
+        Used.HINT,
+    )
     assert (attempt.runtime_ms, attempt.memory_mb) == (7, 18.1)
 
 
 def test_run_skips_blank_answers(picked):
     # A blank expected line would read back as no expected value.
-    result = judge_result(Status.ACCEPTED, outputs=("true", "true"), expected_outputs=("", "true"))
+    result = judge_result(
+        Status.ACCEPTED, outputs=("true", "true"), expected_outputs=("", "true")
+    )
     judging, _, _, cases_path = picked("[1,1]\n\n[5,5]\n", result)
 
     run = judging.run(217)
@@ -152,7 +172,9 @@ def test_run_skips_blank_answers(picked):
 
 
 def test_failing_case_with_blank_line_is_not_kept(picked):
-    result = judge_result(Status.WRONG_ANSWER, failing_case=("",), failing_expected="true")
+    result = judge_result(
+        Status.WRONG_ANSWER, failing_case=("",), failing_expected="true"
+    )
     judging, _, _, cases_path = picked("[1,1]\ntrue\n", result)
 
     submit = judging.submit(217, Used.NONE)

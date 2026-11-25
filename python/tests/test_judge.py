@@ -29,7 +29,8 @@ def judge(transport) -> JudgeClient:
 def test_load_credentials_from_dotenv(tmp_path: Path):
     dotenv = tmp_path / ".env"
     dotenv.write_text(
-        "# cookies\nLEETCODE_SESSION='abc'\nLEETCODE_CSRFTOKEN=def\n\nLEETCODE_CFCLEARANCE=ghi\n"
+        "# cookies\nLEETCODE_SESSION='abc'\nLEETCODE_CSRFTOKEN=def\n"
+        "\nLEETCODE_CFCLEARANCE=ghi\n"
     )
 
     credentials = load_credentials({}, dotenv)
@@ -52,7 +53,9 @@ def test_environment_overrides_dotenv(tmp_path: Path):
 
 
 def test_missing_credentials_name_the_keys(tmp_path: Path):
-    with pytest.raises(MissingCredentials, match="LEETCODE_SESSION, LEETCODE_CSRFTOKEN"):
+    with pytest.raises(
+        MissingCredentials, match="LEETCODE_SESSION, LEETCODE_CSRFTOKEN"
+    ):
         load_credentials({}, tmp_path / ".env")
 
 
@@ -83,14 +86,23 @@ def test_submit_sends_cookies_and_polls_until_done(fake_transport):
     assert (result.total_correct, result.total_testcases) == (39, 39)
 
     method, url, payload, headers = transport.requests[0]
-    assert (method, url) == ("POST", "https://leetcode.com/problems/score-of-a-string/submit/")
+    assert (method, url) == (
+        "POST",
+        "https://leetcode.com/problems/score-of-a-string/submit/",
+    )
     # Submit needs the internal id, not the problem number.
-    assert payload == {"lang": "python3", "question_id": "3379", "typed_code": "class Solution: ..."}
+    assert payload == {
+        "lang": "python3",
+        "question_id": "3379",
+        "typed_code": "class Solution: ...",
+    }
     assert "LEETCODE_SESSION=session-value" in headers["Cookie"]
     assert "cf_clearance=cf-value" in headers["Cookie"]
     assert headers["x-csrftoken"] == "csrf-value"
     assert headers["User-Agent"] == "Agent/1.0"
-    assert transport.requests[2][1] == "https://leetcode.com/submissions/detail/42/check/"
+    assert (
+        transport.requests[2][1] == "https://leetcode.com/submissions/detail/42/check/"
+    )
 
 
 def test_wrong_answer_keeps_failing_case(fake_transport):
@@ -120,7 +132,11 @@ def test_runtime_error_message(fake_transport):
     transport = fake_transport(
         [
             {"submission_id": 1},
-            {"state": "SUCCESS", "status_code": 15, "full_runtime_error": "IndexError: boom"},
+            {
+                "state": "SUCCESS",
+                "status_code": 15,
+                "full_runtime_error": "IndexError: boom",
+            },
         ]
     )
 
@@ -159,7 +175,9 @@ def test_refused_login_is_auth_expired(fake_transport, status):
 
 
 def test_unknown_status_code_fails_closed(fake_transport):
-    transport = fake_transport([{"submission_id": 1}, {"state": "SUCCESS", "status_code": 99}])
+    transport = fake_transport(
+        [{"submission_id": 1}, {"state": "SUCCESS", "status_code": 99}]
+    )
 
     with pytest.raises(LeetCodeUnavailable, match="status code 99"):
         judge(transport).submit(PROBLEM, "code")

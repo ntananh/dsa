@@ -43,7 +43,9 @@ def same(output: object, expected: str, type_name: str, mode: CompareMode) -> bo
     return same_text(output_text, expected, type_name, mode)
 
 
-def same_text(output_text: str, expected: str, type_name: str, mode: CompareMode) -> bool:
+def same_text(
+    output_text: str, expected: str, type_name: str, mode: CompareMode
+) -> bool:
     """Compare two LeetCode text values, for example "[0,1]" and "[0, 1]"."""
     try:
         actual = json.loads(output_text)
@@ -182,7 +184,7 @@ def _equal(actual: object, wanted: object, is_double: bool) -> bool:
 
     if isinstance(actual, list) and isinstance(wanted, list):
         return len(actual) == len(wanted) and all(
-            _equal(a, w, is_double) for a, w in zip(actual, wanted)
+            _equal(a, w, is_double) for a, w in zip(actual, wanted, strict=True)
         )
 
     is_number = isinstance(actual, (int, float)) and isinstance(wanted, (int, float))

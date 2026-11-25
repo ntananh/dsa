@@ -36,7 +36,8 @@ class Outcome(Enum):
     OK = "ok"
     COMPILE_ERROR = "compile_error"
     RUNTIME_ERROR = "runtime_error"
-    # cases.txt holds a value the signature cannot read: the user's file, not the solution.
+    # cases.txt holds a value the signature cannot read.
+    # The user's file is wrong, not the solution.
     BAD_INPUT = "bad_input"
 
 
@@ -125,12 +126,19 @@ def _prepare(module: ModuleType, signature: dict, inputs: tuple[str, ...]) -> Ca
     return _function_call(module, signature, inputs)
 
 
-def _function_call(module: ModuleType, signature: dict, inputs: tuple[str, ...]) -> Call:
+def _function_call(
+    module: ModuleType, signature: dict, inputs: tuple[str, ...]
+) -> Call:
     params = signature["params"]
     if len(inputs) != len(params):
-        raise ValueError(f"has {len(inputs)} input lines, the method takes {len(params)}")
+        raise ValueError(
+            f"has {len(inputs)} input lines, the method takes {len(params)}"
+        )
 
-    args = [_decode_line(line, param["type"]) for line, param in zip(inputs, params)]
+    args = [
+        _decode_line(line, param["type"])
+        for line, param in zip(inputs, params, strict=True)
+    ]
     solution_class = getattr(module, SOLUTION_CLASS)
     index = output_index(signature)
 
@@ -159,7 +167,7 @@ def _design_call(module: ModuleType, signature: dict, inputs: tuple[str, ...]) -
     def call() -> str:
         instance = cls(*_typed(arguments[0], constructor))
         results = [NULL]
-        for name, args in zip(names[1:], arguments[1:]):
+        for name, args in zip(names[1:], arguments[1:], strict=True):
             method = methods[name]
             returned = getattr(instance, name)(*_typed(args, method["params"]))
             results.append(_encode_result(returned, method["return"]["type"]))
@@ -169,7 +177,10 @@ def _design_call(module: ModuleType, signature: dict, inputs: tuple[str, ...]) -
 
 
 def _typed(values: list, params: list[dict]) -> list:
-    return [from_plain(value, param["type"]) for value, param in zip(values, params)]
+    return [
+        from_plain(value, param["type"])
+        for value, param in zip(values, params, strict=False)
+    ]
 
 
 def _decode_line(line: str, type_name: str) -> object:
@@ -198,7 +209,9 @@ def _last_error() -> str:
     """The exception line and the deepest solution.py frame, as LeetCode shows."""
     kind, error, trace = sys.exc_info()
     message = "".join(traceback.format_exception_only(kind, error)).strip()
-    frames = [f for f in traceback.extract_tb(trace) if f.filename.endswith(SOLUTION_FILE)]
+    frames = [
+        f for f in traceback.extract_tb(trace) if f.filename.endswith(SOLUTION_FILE)
+    ]
     if not frames:
         return message
     return f"{message}\n    line {frames[-1].lineno}, in {frames[-1].name}"

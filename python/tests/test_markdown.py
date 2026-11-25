@@ -14,7 +14,8 @@ def test_inline_markup_and_superscripts(question):
 
     assert (
         "Given an integer array `nums`, return `true` if any value appears "
-        "**at least twice** in the array, and return `false` if every element is distinct."
+        "**at least twice** in the array, and return `false` if every element "
+        "is distinct."
     ) in markdown
     assert "* `1 <= nums.length <= 10^5`" in markdown
     assert "* `-10^9 <= nums[i] <= 10^9`" in markdown

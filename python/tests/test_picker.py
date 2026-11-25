@@ -5,7 +5,7 @@ import pytest
 
 from dsa.errors import LeetCodeUnavailable
 from dsa.leetcode.client import LeetCodeClient
-from dsa.picker import PickOutcome, Picker
+from dsa.picker import Picker, PickOutcome
 from dsa.tracker import Tracker
 from dsa.workspace import Workspace
 
@@ -16,7 +16,9 @@ PICK_FILES = {"solution.py", "cases.txt", "problem.md", "meta.json"}
 def setup(tmp_path: Path, fake_transport):
     def build(replies: list[dict]):
         transport = fake_transport(replies)
-        tracker = Tracker(tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now)
+        tracker = Tracker(
+            tmp_path / "log.jsonl", tmp_path / ".timers.json", datetime.now
+        )
         workspace = Workspace(tmp_path / "leetcode")
         return Picker(LeetCodeClient(transport), workspace, tracker), transport, tracker
 
@@ -31,7 +33,9 @@ def test_pick_creates_folder_and_starts_timer(setup, question, slug_reply, tmp_p
     result = picker.pick(217)
 
     assert result.outcome is PickOutcome.CREATED
-    assert result.folder == tmp_path / "leetcode" / "easy" / "__1_217_contains_duplicate"
+    assert (
+        result.folder == tmp_path / "leetcode" / "easy" / "__1_217_contains_duplicate"
+    )
     assert {path.name for path in result.folder.iterdir()} == PICK_FILES
     assert result.cases_without_expected == 0
     assert tracker.elapsed(217) is not None

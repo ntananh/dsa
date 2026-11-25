@@ -52,7 +52,12 @@ class Runner:
         receiver, sender = self._context.Pipe(duplex=False)
         child = self._context.Process(
             target=child_main,
-            args=(str(problem.solution_path), dict(problem.signature), case.inputs, sender),
+            args=(
+                str(problem.solution_path),
+                dict(problem.signature),
+                case.inputs,
+                sender,
+            ),
             daemon=True,
         )
         child.start()

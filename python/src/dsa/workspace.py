@@ -38,10 +38,16 @@ class Workspace:
         return None
 
     def next_number(self, difficulty: Difficulty) -> int:
-        numbers = [n for folder, n, _ in self._folders() if folder.parent.name == difficulty.folder]
+        numbers = [
+            n
+            for folder, n, _ in self._folders()
+            if folder.parent.name == difficulty.folder
+        ]
         return max(numbers, default=0) + 1
 
-    def create(self, name: str, difficulty: Difficulty, files: Mapping[str, str]) -> Path:
+    def create(
+        self, name: str, difficulty: Difficulty, files: Mapping[str, str]
+    ) -> Path:
         parent = self._root / difficulty.folder
         target = parent / name
         if target.exists():

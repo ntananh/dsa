@@ -60,7 +60,9 @@ def test_create_refuses_to_overwrite(tmp_path: Path):
 
 
 def test_load_reads_meta(tmp_path: Path):
-    folder = Workspace(tmp_path).create("__1_217_x", Difficulty.EASY, {"meta.json": META})
+    folder = Workspace(tmp_path).create(
+        "__1_217_x", Difficulty.EASY, {"meta.json": META}
+    )
 
     local = Workspace(tmp_path).load(217)
 
