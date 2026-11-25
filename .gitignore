@@ -146,3 +146,7 @@ Cargo.lock
 __pycache__/
 .venv/
 .pytest_cache/
+
+# Python practice framework secrets and local state
+python/.env
+python/.timers.json

@@ -1,0 +1,25 @@
+{
+  "id": 217,
+  "question_id": "217",
+  "slug": "contains-duplicate",
+  "title": "Contains Duplicate",
+  "difficulty": "Easy",
+  "topics": [
+    "Array",
+    "Hash Table",
+    "Sorting"
+  ],
+  "compare": "exact",
+  "signature": {
+    "name": "containsDuplicate",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

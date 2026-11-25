@@ -1,19 +1,19 @@
 [project]
-name = "dsa-python"
+name = "dsa"
 version = "0.1.0"
 description = "LeetCode and DSA practice in Python."
 requires-python = ">=3.12"
 dependencies = []
 
+[project.scripts]
+dsa = "dsa.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
+
 [dependency-groups]
 dev = ["pytest>=8"]
 
-[tool.uv]
-package = false
-
 [tool.pytest.ini_options]
-testpaths = ["leetcode"]
-# Solutions follow the Java naming (__{n}_{id}_{name}.py), not test_*.py.
-python_files = ["__*.py"]
-# Sequence numbers restart per difficulty, so basenames can collide across folders.
-addopts = "--import-mode=importlib"
+testpaths = ["tests"]
