@@ -254,7 +254,7 @@ Phase 0 public probe, 2026-11-25, problems 217, 1, 206, 104, 155, 88, 3110. All 
 
 3. **`dsa run` and `dsa submit`.** Send to LeetCode's judge, poll for the result, print the verdict in the same format, and append failing cases to `cases.txt`.
 4. **Tracker.** `test` and `submit` log each attempt to `log.jsonl`. `dsa start` starts the timer for a re-solve.
-5. **Review and stats.** Re-solve intervals of 1, 3, 7, 14 and 30 days after each solve, which reset on a failed re-solve. Stats by LeetCode topic and difficulty, linked to the phases of [mastery-plan.md](mastery-plan.md).
+5. **Review and stats.** Re-solve intervals of 1, 3, 7, 14 and 30 days after each solve, which reset on a failed re-solve. Stats by LeetCode topic and difficulty, linked to the phases of the DSA Mastery Plan (vault note `20-areas/personal/dsa-mastery-plan.md`).
 6. **Docs.** Rewrite `python/README.md` and add a Python section to `.claude/CLAUDE.md`.
 
 ## 9. Hard Cases for the Runner
