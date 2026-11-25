@@ -35,6 +35,10 @@ class Picker:
         self._workspace = workspace
         self._tracker = tracker
 
+    def daily_id(self) -> int:
+        """Today's LeetCode daily problem number."""
+        return self._client.daily_id()
+
     def pick(self, frontend_id: int) -> PickResult:
         existing = self._workspace.find(frontend_id)
         if existing is not None:

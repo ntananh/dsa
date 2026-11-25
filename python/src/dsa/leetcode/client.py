@@ -35,6 +35,14 @@ query lookup($filters: QuestionListFilterInput, $limit: Int) {
 }
 """
 
+DAILY_QUERY = """
+query daily {
+  activeDailyCodingChallengeQuestion {
+    question { questionFrontendId }
+  }
+}
+"""
+
 QUESTION_QUERY = """
 query question($slug: String!) {
   question(titleSlug: $slug) {
@@ -69,6 +77,16 @@ class LeetCodeClient:
                 return row["titleSlug"]
 
         raise ProblemNotFoundError(frontend_id)
+
+    def daily_id(self) -> int:
+        data = self._query(DAILY_QUERY, {}, PROBLEMSET_URL)
+        challenge = data["activeDailyCodingChallengeQuestion"] or {}
+        question = challenge.get("question") or {}
+        frontend_id = str(question.get("questionFrontendId", ""))
+        if not frontend_id.isdigit():
+            raise LeetCodeUnavailableError("LeetCode returned no daily problem")
+
+        return int(frontend_id)
 
     def fetch_problem(self, slug: str) -> Problem:
         data = self._query(

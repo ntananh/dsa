@@ -37,8 +37,9 @@ def cli(tmp_path: Path, fake_transport, question, slug_reply, capsys):
     def run(
         *argv: str, replies: tuple = (), env: dict | None = None
     ) -> tuple[int, str, str]:
+        # A pick sends the given replies first: `pick daily` asks for today's id.
         transport = fake_transport(
-            [*pick_replies, *replies] if argv[0] == "pick" else list(replies)
+            [*replies, *pick_replies] if argv[0] == "pick" else list(replies)
         )
         app = App(paths, transport, clock=lambda: NOW, env=env or {})
         code = main(list(argv), app)
@@ -66,6 +67,21 @@ def test_pick_then_pick_again(cli):
     code, out, _ = cli("pick", "217")
     assert code == 0
     assert out.startswith("Already picked")
+
+
+def test_pick_daily_picks_todays_problem(cli):
+    daily = {
+        "data": {
+            "activeDailyCodingChallengeQuestion": {
+                "question": {"questionFrontendId": "217"}
+            }
+        }
+    }
+
+    code, out, _ = cli("pick", "daily", replies=(daily,))
+
+    assert code == 0
+    assert out.startswith("Picked ") and "__1_217_contains_duplicate" in out
 
 
 def test_test_passes_only_when_every_case_is_accepted(cli):

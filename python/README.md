@@ -25,6 +25,7 @@ Copy the values from the browser dev tools (Application, Cookies, `leetcode.com`
 | Command                             | Effect                                                                               |
 |-------------------------------------|--------------------------------------------------------------------------------------|
 | `uv run dsa pick 217`               | Write the problem to `leetcode/easy/__n_217_contains_duplicate/` and start the timer |
+| `uv run dsa pick daily`             | Same, for today's LeetCode daily problem                                             |
 | `uv run dsa test 217`               | Run `cases.txt` locally                                                              |
 | `uv run dsa run 217`                | Run `cases.txt` on LeetCode and fill missing expected values                         |
 | `uv run dsa submit 217`             | Submit and log the attempt                                                           |

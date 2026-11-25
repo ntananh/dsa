@@ -1,6 +1,7 @@
 """dsa: pick a LeetCode problem, test it locally, run and submit it on LeetCode.
 
 dsa pick 217                 write leetcode/easy/__n_217_contains_duplicate/
+dsa pick daily               pick today's LeetCode daily problem
 dsa test 217                 run cases.txt locally
 dsa run 217                  run cases.txt on LeetCode, fill missing expected values
 dsa submit 217 --used hint   submit, log the help used
@@ -30,6 +31,8 @@ EXIT_OK = 0
 EXIT_FAILED = 1
 # Shell convention for a run stopped with Ctrl-C: 128 + SIGINT (2).
 EXIT_INTERRUPTED = 130
+# `dsa pick daily` picks today's LeetCode daily problem.
+DAILY = "daily"
 
 Handler = Callable[[App, argparse.Namespace], int]
 
@@ -46,7 +49,8 @@ def main(argv: Sequence[str] | None = None, app: App | None = None) -> int:
 
 
 def _pick(app: App, args: argparse.Namespace) -> int:
-    print(format_pick(args.id, app.picker.pick(args.id)), end="")
+    frontend_id = app.picker.daily_id() if args.id == DAILY else args.id
+    print(format_pick(frontend_id, app.picker.pick(frontend_id)), end="")
     return EXIT_OK
 
 
@@ -95,6 +99,10 @@ def _problem_id(text: str) -> int:
     return int(text)
 
 
+def _pick_target(text: str) -> int | str:
+    return DAILY if text == DAILY else _problem_id(text)
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="dsa",
@@ -103,7 +111,10 @@ def _parser() -> argparse.ArgumentParser:
     )
     commands = parser.add_subparsers(required=True, metavar="command")
 
-    _with_id(_command(commands, "pick", _pick, "fetch a problem into leetcode/"))
+    pick = _command(commands, "pick", _pick, "fetch a problem into leetcode/")
+    pick.add_argument(
+        "id", type=_pick_target, help=f"LeetCode problem number, or {DAILY}"
+    )
     _with_id(_command(commands, "test", _test, "run cases.txt locally"))
     _with_id(_command(commands, "run", _run, "run cases.txt on LeetCode"))
     submit = _with_id(_command(commands, "submit", _submit, "submit to LeetCode"))

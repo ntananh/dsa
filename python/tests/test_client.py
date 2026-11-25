@@ -42,6 +42,29 @@ def test_graphql_errors_mean_unavailable(fake_transport):
         LeetCodeClient(transport).find_slug(1)
 
 
+def daily_reply(challenge: dict | None) -> dict:
+    return {"data": {"activeDailyCodingChallengeQuestion": challenge}}
+
+
+def test_daily_id_is_todays_problem_number(fake_transport):
+    challenge = {"question": {"questionFrontendId": "217"}}
+    transport = fake_transport([daily_reply(challenge)])
+
+    assert LeetCodeClient(transport).daily_id() == 217
+
+
+@pytest.mark.parametrize(
+    "challenge",
+    [None, {"question": None}, {"question": {"questionFrontendId": "LCP 1"}}],
+)
+def test_missing_daily_is_unavailable(fake_transport, challenge):
+    # Fail with a clear error, not a KeyError, if LeetCode has no daily today.
+    transport = fake_transport([daily_reply(challenge)])
+
+    with pytest.raises(LeetCodeUnavailableError, match="no daily problem"):
+        LeetCodeClient(transport).daily_id()
+
+
 def test_fetch_problem_maps_fields(fake_transport, question):
     transport = fake_transport([question_reply(question(3110))])
 
