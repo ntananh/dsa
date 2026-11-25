@@ -141,3 +141,8 @@ Cargo.lock
 *.pdb
 
 !/.idea/
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
