@@ -27,7 +27,8 @@ PYTHON_LANG = "python3"
 DONE_STATE = "SUCCESS"
 DEFAULT_POLL_SECONDS = 1.0
 DEFAULT_MAX_POLLS = 60
-AUTH_STATUSES = (401, 403)
+# 499 is LeetCode's reply to a stale CSRF token, seen live with an expired session.
+AUTH_STATUSES = (401, 403, 499)
 NUMBER = re.compile(r"\d+(?:\.\d+)?")
 
 STATUS_CODES = {

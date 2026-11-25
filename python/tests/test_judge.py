@@ -192,7 +192,8 @@ def test_interpret_drops_trailing_empty_answer(fake_transport):
     assert result.expected_outputs == ("true", "false", "true", "false")
 
 
-@pytest.mark.parametrize("status", [401, 403])
+# 499 is the live reply when both the session and the CSRF token are stale.
+@pytest.mark.parametrize("status", [401, 403, 499])
 def test_refused_login_is_auth_expired(fake_transport, status):
     transport = fake_transport([LeetCodeUnavailableError(f"HTTP {status}", status)])
 
