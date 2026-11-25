@@ -170,6 +170,28 @@ def test_interpret_returns_outputs_and_expected(fake_transport):
     assert transport.requests[0][2]["data_input"] == '"hello"\n"zaz"'
 
 
+def test_interpret_drops_trailing_empty_answer(fake_transport):
+    # Live reply for 4 cases: LeetCode pads both lists with one "" after the last case.
+    transport = fake_transport(
+        [
+            {"interpret_id": "runcode_1"},
+            {
+                "state": "SUCCESS",
+                "status_code": 10,
+                "correct_answer": True,
+                "code_answer": ["true", "false", "true", "false", ""],
+                "expected_code_answer": ["true", "false", "true", "false", ""],
+                "total_testcases": 4,
+            },
+        ]
+    )
+
+    result = judge(transport).interpret(PROBLEM, "code", "[1]\n[2]\n[3]\n[4]")
+
+    assert result.outputs == ("true", "false", "true", "false")
+    assert result.expected_outputs == ("true", "false", "true", "false")
+
+
 @pytest.mark.parametrize("status", [401, 403])
 def test_refused_login_is_auth_expired(fake_transport, status):
     transport = fake_transport([LeetCodeUnavailableError(f"HTTP {status}", status)])

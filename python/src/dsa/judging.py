@@ -54,15 +54,15 @@ class Judging:
 
         result = self._judge.interpret(problem, self._code(problem), data_input)
         completed, filled = _fill_expected(cases, result.expected_outputs)
+        # Check the reply before any write, so an error leaves no trace on disk.
+        case_results = _case_results(problem, completed, result)
         if filled:
             self._save_cases(problem, completed)
 
         self._tracker.record(
             self._tracker.attempt(frontend_id, Action.RUN, result.status)
         )
-        return RemoteRun(
-            problem, _case_results(problem, completed, result), result, filled
-        )
+        return RemoteRun(problem, case_results, result, filled)
 
     def submit(self, frontend_id: int, used: Used) -> RemoteSubmit:
         problem = self._workspace.load(frontend_id)

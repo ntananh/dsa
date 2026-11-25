@@ -113,10 +113,13 @@ def test_run_with_missing_outputs_fails_closed(picked):
     result = judge_result(
         Status.ACCEPTED, outputs=("true",), expected_outputs=("true",)
     )
-    judging, _, _, _ = picked("[1,1]\ntrue\n\n[1,2]\nfalse\n", result)
+    judging, _, tracker, _ = picked("[1,1]\ntrue\n\n[1,2]\nfalse\n", result)
 
     with pytest.raises(LeetCodeUnavailableError, match="1 outputs for 2 cases"):
         judging.run(217)
+
+    # The CLI showed an error, so the log must not claim an Accepted run.
+    assert tracker.attempts() == []
 
 
 def test_submit_sends_only_marked_code(picked):

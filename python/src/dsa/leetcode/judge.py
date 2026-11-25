@@ -137,8 +137,8 @@ def _interpret_result(check: dict) -> JudgeResult:
         status=status,
         runtime_ms=_number(check.get("status_runtime"), int),
         memory_mb=_number(check.get("status_memory"), float),
-        outputs=tuple(check.get("code_answer") or ()),
-        expected_outputs=tuple(check.get("expected_code_answer") or ()),
+        outputs=_answers(check, "code_answer"),
+        expected_outputs=_answers(check, "expected_code_answer"),
         error=_error(check),
     )
 
@@ -156,6 +156,17 @@ def _submit_result(check: dict) -> JudgeResult:
         failing_expected=check.get("expected_output") or None,
         error=_error(check),
     )
+
+
+def _answers(check: dict, key: str) -> tuple[str, ...]:
+    """LeetCode pads the list with "" after the last case, ["true", ""] for 1 case.
+
+    A real answer is never empty text: even a void return encodes as null.
+    """
+    answers = list(check.get(key) or ())
+    while answers and answers[-1] == "":
+        answers.pop()
+    return tuple(answers)
 
 
 def _number(text: object, kind: type) -> int | float | None:
