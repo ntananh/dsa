@@ -22,16 +22,16 @@ Copy the values from the browser dev tools (Application, Cookies, `leetcode.com`
 
 ## Commands
 
-| Command | Effect |
-|---|---|
-| `uv run dsa pick 217` | Write the problem to `leetcode/easy/__n_217_contains_duplicate/` and start the timer |
-| `uv run dsa test 217` | Run `cases.txt` locally |
-| `uv run dsa run 217` | Run `cases.txt` on LeetCode and fill missing expected values |
-| `uv run dsa submit 217` | Submit and log the attempt |
-| `uv run dsa submit 217 --used hint` | Same, and record the help used (`none`, `hint`, `solution`) |
-| `uv run dsa start 217` | Restart the timer, for example before a review |
-| `uv run dsa review` | List problems due for spaced review |
-| `uv run dsa stats` | Show solved counts by difficulty and topic |
+| Command                             | Effect                                                                               |
+|-------------------------------------|--------------------------------------------------------------------------------------|
+| `uv run dsa pick 217`               | Write the problem to `leetcode/easy/__n_217_contains_duplicate/` and start the timer |
+| `uv run dsa test 217`               | Run `cases.txt` locally                                                              |
+| `uv run dsa run 217`                | Run `cases.txt` on LeetCode and fill missing expected values                         |
+| `uv run dsa submit 217`             | Submit and log the attempt                                                           |
+| `uv run dsa submit 217 --used hint` | Same, and record the help used (`none`, `hint`, `solution`)                          |
+| `uv run dsa start 217`              | Restart the timer, for example before a review                                       |
+| `uv run dsa review`                 | List problems due for spaced review                                                  |
+| `uv run dsa stats`                  | Show solved counts by difficulty and topic                                           |
 
 `test`, `run` and `submit` return exit code 0 only when every case is accepted. Any error prints one line and returns 1.
 
