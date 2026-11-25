@@ -3,7 +3,7 @@
 from collections.abc import Iterable
 
 from dsa.domain import Case
-from dsa.errors import InvalidCasesFile
+from dsa.errors import InvalidCasesFileError
 
 
 def format_cases(cases: Iterable[Case]) -> str:
@@ -27,7 +27,7 @@ def parse_cases(text: str, lines_per_case: int) -> list[Case]:
             cases.append(Case(tuple(block[:-1]), block[-1]))
             continue
 
-        raise InvalidCasesFile(
+        raise InvalidCasesFileError(
             f"cases.txt: case {number} has {len(block)} lines, "
             f"expected {lines_per_case} or {lines_per_case + 1}"
         )

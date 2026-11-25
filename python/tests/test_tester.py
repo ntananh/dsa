@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import Status
-from dsa.errors import InvalidCasesFile
+from dsa.errors import InvalidCasesFileError
 from dsa.files.meta import render_meta
 from dsa.leetcode.client import LeetCodeClient
 from dsa.runner import Runner
@@ -58,7 +58,7 @@ def test_runs_cases_and_logs_verdict(picked):
 def test_empty_cases_file_is_an_error(picked):
     tester, tracker = picked("\n")
 
-    with pytest.raises(InvalidCasesFile, match="no cases"):
+    with pytest.raises(InvalidCasesFileError, match="no cases"):
         tester.test(217)
 
     assert tracker.attempts() == []

@@ -4,7 +4,7 @@ import json
 import re
 
 from dsa.domain import Problem
-from dsa.errors import InvalidSolution
+from dsa.errors import InvalidSolutionError
 
 CODE_START = "# @lc code=start"
 CODE_END = "# @lc code=end"
@@ -36,7 +36,7 @@ def render_solution(problem: Problem) -> str:
 def extract_code(text: str) -> str:
     lines = text.splitlines()
     if CODE_START not in lines or CODE_END not in lines:
-        raise InvalidSolution(
+        raise InvalidSolutionError(
             f"solution.py needs the lines '{CODE_START}' and '{CODE_END}'"
         )
 

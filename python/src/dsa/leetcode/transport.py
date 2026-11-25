@@ -5,7 +5,7 @@ import urllib.error
 import urllib.request
 from typing import Protocol
 
-from dsa.errors import LeetCodeUnavailable
+from dsa.errors import LeetCodeUnavailableError
 
 DEFAULT_TIMEOUT_SECONDS = 15.0
 # Cloudflare answers 403 to urllib's own "Python-urllib/3.x", even for public reads.
@@ -49,14 +49,14 @@ class UrllibTransport:
             with self._opener.open(request, timeout=self._timeout_seconds) as response:
                 body = response.read()
         except urllib.error.HTTPError as error:
-            raise LeetCodeUnavailable(f"HTTP {error.code}", error.code) from error
+            raise LeetCodeUnavailableError(f"HTTP {error.code}", error.code) from error
         except (urllib.error.URLError, TimeoutError, OSError) as error:
-            raise LeetCodeUnavailable(str(error)) from error
+            raise LeetCodeUnavailableError(str(error)) from error
 
         try:
             return json.loads(body)
         except ValueError as error:
             # Cloudflare challenge pages arrive as HTML with status 200.
-            raise LeetCodeUnavailable(
+            raise LeetCodeUnavailableError(
                 "reply is not JSON (Cloudflare check?)"
             ) from error

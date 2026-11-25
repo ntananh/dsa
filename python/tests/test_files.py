@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import Case, CompareMode, Difficulty, Problem
-from dsa.errors import InvalidCasesFile, InvalidSolution
+from dsa.errors import InvalidCasesFileError, InvalidSolutionError
 from dsa.files.cases import format_cases, parse_cases
 from dsa.files.description import render_description
 from dsa.files.meta import parse_meta, render_meta
@@ -70,7 +70,7 @@ def test_extract_code_returns_only_the_marked_region(problem):
 
 
 def test_extract_code_without_markers():
-    with pytest.raises(InvalidSolution, match="@lc code=start"):
+    with pytest.raises(InvalidSolutionError, match="@lc code=start"):
         extract_code("class Solution:\n    pass\n")
 
 
@@ -92,7 +92,9 @@ def test_parse_cases_ignores_extra_blank_lines_and_crlf():
 def test_parse_cases_names_the_bad_case():
     text = "[1]\n3\ntrue\n\n[1]\n3\n4\nextra\n"
 
-    with pytest.raises(InvalidCasesFile, match="case 2 has 4 lines, expected 2 or 3"):
+    with pytest.raises(
+        InvalidCasesFileError, match="case 2 has 4 lines, expected 2 or 3"
+    ):
         parse_cases(text, 2)
 
 

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from dsa.errors import LeetCodeUnavailable
+from dsa.errors import LeetCodeUnavailableError
 from dsa.leetcode.client import LeetCodeClient
 from dsa.picker import Picker, PickOutcome
 from dsa.tracker import Tracker
@@ -60,7 +60,7 @@ def test_second_pick_makes_no_request(setup, question, slug_reply):
 def test_failed_fetch_leaves_no_folder(setup, tmp_path):
     picker, _, _ = setup([{"errors": [{"message": "down"}]}])
 
-    with pytest.raises(LeetCodeUnavailable):
+    with pytest.raises(LeetCodeUnavailableError):
         picker.pick(217)
 
     assert not (tmp_path / "leetcode" / "easy").exists() or not any(

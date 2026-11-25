@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import Case, LocalProblem, Status
-from dsa.errors import InvalidCasesFile, InvalidSolution
+from dsa.errors import InvalidCasesFileError, InvalidSolutionError
 from dsa.execution import MAX_STDOUT_CHARS
 from dsa.files.meta import parse_meta, render_meta
 from dsa.leetcode.client import LeetCodeClient
@@ -110,12 +110,12 @@ def test_missing_solution_file(local):
     problem = local(217, CONTAINS_DUPLICATE)
     problem.solution_path.unlink()
 
-    with pytest.raises(InvalidSolution):
+    with pytest.raises(InvalidSolutionError):
         run(problem, DUPLICATE_CASES)
 
 
 def test_bad_input_line_names_the_case(local):
-    with pytest.raises(InvalidCasesFile, match="case 2"):
+    with pytest.raises(InvalidCasesFileError, match="case 2"):
         run(
             local(217, CONTAINS_DUPLICATE),
             [DUPLICATE_CASES[0], Case(("[1,2",), "true")],

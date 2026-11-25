@@ -2,10 +2,10 @@ import pytest
 
 from dsa.domain import Difficulty
 from dsa.errors import (
-    LeetCodeUnavailable,
-    PaidOnlyProblem,
-    ProblemNotFound,
-    UnsupportedProblem,
+    LeetCodeUnavailableError,
+    PaidOnlyProblemError,
+    ProblemNotFoundError,
+    UnsupportedProblemError,
 )
 from dsa.leetcode.client import LeetCodeClient
 
@@ -31,14 +31,14 @@ def test_find_slug_matches_exact_id_not_search_prefix(fake_transport):
 def test_find_slug_raises_when_no_row_matches(fake_transport):
     transport = fake_transport([list_reply(("10", "regular-expression"))])
 
-    with pytest.raises(ProblemNotFound):
+    with pytest.raises(ProblemNotFoundError):
         LeetCodeClient(transport).find_slug(1)
 
 
 def test_graphql_errors_mean_unavailable(fake_transport):
     transport = fake_transport([{"errors": [{"message": "schema changed"}]}])
 
-    with pytest.raises(LeetCodeUnavailable, match="schema changed"):
+    with pytest.raises(LeetCodeUnavailableError, match="schema changed"):
         LeetCodeClient(transport).find_slug(1)
 
 
@@ -58,14 +58,14 @@ def test_fetch_problem_maps_fields(fake_transport, question):
 
 
 def test_fetch_problem_null_question_is_not_found(fake_transport):
-    with pytest.raises(ProblemNotFound):
+    with pytest.raises(ProblemNotFoundError):
         LeetCodeClient(fake_transport([question_reply(None)])).fetch_problem("nope")
 
 
 def test_fetch_problem_paid_only(fake_transport, question):
     paid = question(217) | {"isPaidOnly": True, "content": None}
 
-    with pytest.raises(PaidOnlyProblem):
+    with pytest.raises(PaidOnlyProblemError):
         LeetCodeClient(fake_transport([question_reply(paid)])).fetch_problem("x")
 
 
@@ -73,7 +73,7 @@ def test_fetch_problem_without_python3_stub(fake_transport, question):
     # Database and shell problems have no python3 starter code.
     sql_only = question(217) | {"codeSnippets": [{"langSlug": "mysql", "code": ""}]}
 
-    with pytest.raises(UnsupportedProblem):
+    with pytest.raises(UnsupportedProblemError):
         LeetCodeClient(fake_transport([question_reply(sql_only)])).fetch_problem("x")
 
 
@@ -82,5 +82,5 @@ def test_unsafe_slug_is_rejected(fake_transport, question, slug):
     # The slug becomes a folder name, so it must not hold a path.
     bad = question(217) | {"titleSlug": slug}
 
-    with pytest.raises(UnsupportedProblem, match="slug"):
+    with pytest.raises(UnsupportedProblemError, match="slug"):
         LeetCodeClient(fake_transport([question_reply(bad)])).fetch_problem("x")

@@ -9,7 +9,7 @@ from typing import Protocol
 
 from dsa.codec import same_text
 from dsa.domain import Case, CaseResult, CompareMode, JudgeResult, LocalProblem, Status
-from dsa.errors import LeetCodeUnavailable
+from dsa.errors import LeetCodeUnavailableError
 from dsa.files.cases import format_cases, parse_cases
 from dsa.files.solution import extract_code
 from dsa.signature import lines_per_case, output_type
@@ -118,7 +118,7 @@ def _case_results(
 ) -> list[CaseResult]:
     outputs = judged.outputs
     if judged.status in FINISHED and len(outputs) != len(cases):
-        raise LeetCodeUnavailable(
+        raise LeetCodeUnavailableError(
             f"run returned {len(outputs)} outputs for {len(cases)} cases"
         )
 

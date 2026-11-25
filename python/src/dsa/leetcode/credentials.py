@@ -8,7 +8,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from dsa.errors import MissingCredentials
+from dsa.errors import MissingCredentialsError
 
 SESSION_KEY = "LEETCODE_SESSION"
 CSRF_KEY = "LEETCODE_CSRFTOKEN"
@@ -48,7 +48,7 @@ def load_credentials(env: Mapping[str, str], dotenv_path: Path) -> Credentials:
     values = {**_read_dotenv(dotenv_path), **{k: v for k, v in env.items() if v}}
     missing = [key for key in REQUIRED_KEYS if not values.get(key)]
     if missing:
-        raise MissingCredentials(missing)
+        raise MissingCredentialsError(missing)
 
     return Credentials(
         session=values[SESSION_KEY],

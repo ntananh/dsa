@@ -8,7 +8,7 @@ from collections.abc import Iterator, Mapping
 from pathlib import Path
 
 from dsa.domain import Difficulty, LocalProblem
-from dsa.errors import ProblemNotPicked
+from dsa.errors import ProblemNotPickedError
 from dsa.files.meta import parse_meta
 
 HOME_ENV = "DSA_HOME"
@@ -68,7 +68,7 @@ class Workspace:
     def load(self, frontend_id: int) -> LocalProblem:
         folder = self.find(frontend_id)
         if folder is None:
-            raise ProblemNotPicked(frontend_id)
+            raise ProblemNotPickedError(frontend_id)
 
         return parse_meta((folder / META_FILE).read_text(encoding="utf-8"), folder)
 

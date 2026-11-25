@@ -5,7 +5,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import pytest
 
-from dsa.errors import LeetCodeUnavailable
+from dsa.errors import LeetCodeUnavailableError
 from dsa.leetcode.transport import BROWSER_USER_AGENT, UrllibTransport
 
 CLOUDFLARE_PAGE = b"<html><body>Just a moment...</body></html>"
@@ -72,14 +72,14 @@ def test_caller_user_agent_wins(server):
 def test_redirect_is_refused(server):
     # urllib copies Cookie and x-csrftoken to the redirect target,
     # which may be another host.
-    with pytest.raises(LeetCodeUnavailable) as raised:
+    with pytest.raises(LeetCodeUnavailableError) as raised:
         UrllibTransport().post_json(f"{server}/redirect", {}, {"Cookie": "secret"})
 
     assert raised.value.status == 302
 
 
 def test_http_error_keeps_status(server):
-    with pytest.raises(LeetCodeUnavailable) as raised:
+    with pytest.raises(LeetCodeUnavailableError) as raised:
         UrllibTransport().post_json(f"{server}/blocked", {}, {})
 
     assert raised.value.status == 403
@@ -87,10 +87,10 @@ def test_http_error_keeps_status(server):
 
 def test_html_instead_of_json_is_unavailable(server):
     # Cloudflare answers 200 with a challenge page when it does not trust the client.
-    with pytest.raises(LeetCodeUnavailable, match="not JSON"):
+    with pytest.raises(LeetCodeUnavailableError, match="not JSON"):
         UrllibTransport().post_json(f"{server}/html", {}, {})
 
 
 def test_connection_refused_is_unavailable():
-    with pytest.raises(LeetCodeUnavailable):
+    with pytest.raises(LeetCodeUnavailableError):
         UrllibTransport(timeout_seconds=1).post_json("http://127.0.0.1:9/", {}, {})

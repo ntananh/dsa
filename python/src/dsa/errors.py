@@ -5,27 +5,27 @@ class DsaError(Exception):
     pass
 
 
-class ProblemNotFound(DsaError):
+class ProblemNotFoundError(DsaError):
     def __init__(self, ref: int | str) -> None:
         super().__init__(f"problem {ref} not found on LeetCode")
 
 
-class PaidOnlyProblem(DsaError):
+class PaidOnlyProblemError(DsaError):
     def __init__(self, slug: str) -> None:
         super().__init__(f"{slug} is a premium problem, its content is not public")
 
 
-class UnsupportedProblem(DsaError):
+class UnsupportedProblemError(DsaError):
     pass
 
 
-class LeetCodeUnavailable(DsaError):
+class LeetCodeUnavailableError(DsaError):
     def __init__(self, reason: str, status: int | None = None) -> None:
         super().__init__(f"LeetCode unavailable: {reason}")
         self.status = status
 
 
-class AuthExpired(DsaError):
+class AuthExpiredError(DsaError):
     def __init__(self) -> None:
         super().__init__(
             "LeetCode refused the request. Copy fresh cookies into python/.env "
@@ -34,21 +34,21 @@ class AuthExpired(DsaError):
         )
 
 
-class MissingCredentials(DsaError):
+class MissingCredentialsError(DsaError):
     def __init__(self, keys: list[str]) -> None:
         super().__init__(f"missing in python/.env: {', '.join(keys)}")
 
 
-class ProblemNotPicked(DsaError):
+class ProblemNotPickedError(DsaError):
     def __init__(self, frontend_id: int) -> None:
         super().__init__(
             f"problem {frontend_id} is not picked, run: dsa pick {frontend_id}"
         )
 
 
-class InvalidCasesFile(DsaError):
+class InvalidCasesFileError(DsaError):
     pass
 
 
-class InvalidSolution(DsaError):
+class InvalidSolutionError(DsaError):
     pass

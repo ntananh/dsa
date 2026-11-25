@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import Difficulty
-from dsa.errors import ProblemNotPicked
+from dsa.errors import ProblemNotPickedError
 from dsa.workspace import Workspace
 
 META = (
@@ -71,5 +71,5 @@ def test_load_reads_meta(tmp_path: Path):
 
 
 def test_load_unpicked(tmp_path: Path):
-    with pytest.raises(ProblemNotPicked, match="dsa pick 9"):
+    with pytest.raises(ProblemNotPickedError, match="dsa pick 9"):
         Workspace(tmp_path).load(9)

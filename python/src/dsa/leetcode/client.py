@@ -5,10 +5,10 @@ import re
 
 from dsa.domain import Difficulty, Problem
 from dsa.errors import (
-    LeetCodeUnavailable,
-    PaidOnlyProblem,
-    ProblemNotFound,
-    UnsupportedProblem,
+    LeetCodeUnavailableError,
+    PaidOnlyProblemError,
+    ProblemNotFoundError,
+    UnsupportedProblemError,
 )
 from dsa.leetcode.examples import (
     build_cases,
@@ -68,7 +68,7 @@ class LeetCodeClient:
             if row["questionFrontendId"] == str(frontend_id):
                 return row["titleSlug"]
 
-        raise ProblemNotFound(frontend_id)
+        raise ProblemNotFoundError(frontend_id)
 
     def fetch_problem(self, slug: str) -> Problem:
         data = self._query(
@@ -76,9 +76,9 @@ class LeetCodeClient:
         )
         question = data["question"]
         if question is None:
-            raise ProblemNotFound(slug)
+            raise ProblemNotFoundError(slug)
         if question["isPaidOnly"] and not question["content"]:
-            raise PaidOnlyProblem(slug)
+            raise PaidOnlyProblemError(slug)
 
         return _to_problem(question)
 
@@ -90,7 +90,7 @@ class LeetCodeClient:
         )
         if "errors" in reply:
             messages = "; ".join(error.get("message", "?") for error in reply["errors"])
-            raise LeetCodeUnavailable(f"GraphQL error: {messages}")
+            raise LeetCodeUnavailableError(f"GraphQL error: {messages}")
 
         return reply["data"]
 
@@ -100,12 +100,12 @@ def _to_problem(question: dict) -> Problem:
     snippets = {s["langSlug"]: s["code"] for s in question["codeSnippets"] or []}
     stub = snippets.get(PYTHON_LANG)
     if stub is None:
-        raise UnsupportedProblem(f"{slug} has no Python 3 starter code")
+        raise UnsupportedProblemError(f"{slug} has no Python 3 starter code")
 
     signature = json.loads(question["metaData"])
     per_case = lines_per_case(signature)
     if per_case == 0:
-        raise UnsupportedProblem(f"{slug} has no function signature")
+        raise UnsupportedProblemError(f"{slug} has no function signature")
 
     groups = group_inputs(question["exampleTestcases"] or "", per_case)
     return Problem(
@@ -124,5 +124,5 @@ def _to_problem(question: dict) -> Problem:
 
 def _safe_slug(slug: str) -> str:
     if not SAFE_SLUG.fullmatch(slug):
-        raise UnsupportedProblem(f"unexpected slug {slug!r}")
+        raise UnsupportedProblemError(f"unexpected slug {slug!r}")
     return slug

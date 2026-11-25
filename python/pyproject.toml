@@ -24,8 +24,6 @@ testpaths = ["tests"]
 [tool.ruff.lint]
 # pycodestyle, pyflakes, isort, bugbear, pyupgrade, simplify, naming
 select = ["E", "F", "I", "B", "UP", "SIM", "N"]
-# Exception names state the failure (ProblemNotFound), an Error suffix adds nothing.
-ignore = ["N818"]
 
 [tool.ruff.lint.per-file-ignores]
 # Solutions keep LeetCode's camelCase method and parameter names.

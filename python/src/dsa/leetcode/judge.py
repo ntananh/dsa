@@ -14,7 +14,7 @@ import time
 from collections.abc import Callable
 
 from dsa.domain import JudgeResult, LocalProblem, Status
-from dsa.errors import AuthExpired, LeetCodeUnavailable
+from dsa.errors import AuthExpiredError, LeetCodeUnavailableError
 from dsa.leetcode.credentials import Credentials
 from dsa.leetcode.transport import Transport
 
@@ -98,7 +98,7 @@ class JudgeClient:
                 return check
             self._sleep(self._poll_seconds)
 
-        raise LeetCodeUnavailable(
+        raise LeetCodeUnavailableError(
             f"judge did not finish after {self._max_polls} checks"
         )
 
@@ -106,16 +106,16 @@ class JudgeClient:
 def _authorized(request: Callable[[], dict]) -> dict:
     try:
         return request()
-    except LeetCodeUnavailable as error:
+    except LeetCodeUnavailableError as error:
         if error.status in AUTH_STATUSES:
-            raise AuthExpired() from error
+            raise AuthExpiredError() from error
         raise
 
 
 def _job_id(reply: dict, key: str) -> str:
     if key not in reply:
         detail = reply.get("error") or f"no {key} in reply"
-        raise LeetCodeUnavailable(str(detail))
+        raise LeetCodeUnavailableError(str(detail))
     return str(reply[key])
 
 
@@ -123,7 +123,7 @@ def _status(check: dict) -> Status:
     code = check.get("status_code")
     if code not in STATUS_CODES:
         # Fail closed: an unknown verdict must never print as a pass.
-        raise LeetCodeUnavailable(f"unknown judge status code {code}")
+        raise LeetCodeUnavailableError(f"unknown judge status code {code}")
     return STATUS_CODES[code]
 
 

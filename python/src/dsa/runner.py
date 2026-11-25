@@ -15,7 +15,7 @@ from collections.abc import Sequence
 
 from dsa.codec import same_text
 from dsa.domain import Case, CaseResult, LocalProblem, Status
-from dsa.errors import InvalidCasesFile, InvalidSolution
+from dsa.errors import InvalidCasesFileError, InvalidSolutionError
 from dsa.execution import Outcome, Reply, child_main
 from dsa.signature import output_type
 
@@ -37,13 +37,13 @@ class Runner:
 
     def run(self, problem: LocalProblem, cases: Sequence[Case]) -> list[CaseResult]:
         if not problem.solution_path.is_file():
-            raise InvalidSolution(f"{problem.solution_path} does not exist")
+            raise InvalidSolutionError(f"{problem.solution_path} does not exist")
 
         results = []
         for number, case in enumerate(cases, start=1):
             reply = self._run_case(problem, case)
             if reply is not None and reply.outcome is Outcome.BAD_INPUT:
-                raise InvalidCasesFile(f"cases.txt: case {number}: {reply.error}")
+                raise InvalidCasesFileError(f"cases.txt: case {number}: {reply.error}")
             results.append(_judge(problem, case, reply))
         return results
 

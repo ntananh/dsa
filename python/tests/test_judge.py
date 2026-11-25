@@ -3,7 +3,11 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import CompareMode, Difficulty, LocalProblem, Status
-from dsa.errors import AuthExpired, LeetCodeUnavailable, MissingCredentials
+from dsa.errors import (
+    AuthExpiredError,
+    LeetCodeUnavailableError,
+    MissingCredentialsError,
+)
 from dsa.leetcode.credentials import Credentials, load_credentials
 from dsa.leetcode.judge import JudgeClient
 
@@ -54,7 +58,7 @@ def test_environment_overrides_dotenv(tmp_path: Path):
 
 def test_missing_credentials_name_the_keys(tmp_path: Path):
     with pytest.raises(
-        MissingCredentials, match="LEETCODE_SESSION, LEETCODE_CSRFTOKEN"
+        MissingCredentialsError, match="LEETCODE_SESSION, LEETCODE_CSRFTOKEN"
     ):
         load_credentials({}, tmp_path / ".env")
 
@@ -168,9 +172,9 @@ def test_interpret_returns_outputs_and_expected(fake_transport):
 
 @pytest.mark.parametrize("status", [401, 403])
 def test_refused_login_is_auth_expired(fake_transport, status):
-    transport = fake_transport([LeetCodeUnavailable(f"HTTP {status}", status)])
+    transport = fake_transport([LeetCodeUnavailableError(f"HTTP {status}", status)])
 
-    with pytest.raises(AuthExpired):
+    with pytest.raises(AuthExpiredError):
         judge(transport).submit(PROBLEM, "code")
 
 
@@ -179,14 +183,14 @@ def test_unknown_status_code_fails_closed(fake_transport):
         [{"submission_id": 1}, {"state": "SUCCESS", "status_code": 99}]
     )
 
-    with pytest.raises(LeetCodeUnavailable, match="status code 99"):
+    with pytest.raises(LeetCodeUnavailableError, match="status code 99"):
         judge(transport).submit(PROBLEM, "code")
 
 
 def test_polling_is_bounded(fake_transport):
     transport = fake_transport([{"submission_id": 1}, PENDING, PENDING, PENDING])
 
-    with pytest.raises(LeetCodeUnavailable, match="did not finish"):
+    with pytest.raises(LeetCodeUnavailableError, match="did not finish"):
         judge(transport).submit(PROBLEM, "code")
 
 
@@ -194,7 +198,7 @@ def test_reply_without_id(fake_transport):
     # LeetCode answers {"error": ...} on rate limits and some login problems.
     transport = fake_transport([{"error": "too fast"}])
 
-    with pytest.raises(LeetCodeUnavailable, match="too fast"):
+    with pytest.raises(LeetCodeUnavailableError, match="too fast"):
         judge(transport).submit(PROBLEM, "code")
 
 
@@ -215,7 +219,7 @@ def test_odd_runtime_text_is_none(fake_transport, text):
 
 def test_auth_error_mentions_cloudflare(fake_transport):
     # LeetCode and Cloudflare both answer 403, so name both fixes.
-    transport = fake_transport([LeetCodeUnavailable("HTTP 403", 403)])
+    transport = fake_transport([LeetCodeUnavailableError("HTTP 403", 403)])
 
-    with pytest.raises(AuthExpired, match="LEETCODE_USER_AGENT"):
+    with pytest.raises(AuthExpiredError, match="LEETCODE_USER_AGENT"):
         judge(transport).submit(PROBLEM, "code")

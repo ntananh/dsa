@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from dsa.domain import JudgeResult, Status
-from dsa.errors import LeetCodeUnavailable
+from dsa.errors import LeetCodeUnavailableError
 from dsa.files.meta import render_meta
 from dsa.files.solution import render_solution
 from dsa.judging import Judging
@@ -115,7 +115,7 @@ def test_run_with_missing_outputs_fails_closed(picked):
     )
     judging, _, _, _ = picked("[1,1]\ntrue\n\n[1,2]\nfalse\n", result)
 
-    with pytest.raises(LeetCodeUnavailable, match="1 outputs for 2 cases"):
+    with pytest.raises(LeetCodeUnavailableError, match="1 outputs for 2 cases"):
         judging.run(217)
 
 
