@@ -1,0 +1,30 @@
+{
+  "id": 1,
+  "question_id": "1",
+  "slug": "two-sum",
+  "title": "Two Sum",
+  "difficulty": "Easy",
+  "topics": [
+    "Array",
+    "Hash Table"
+  ],
+  "compare": "exact",
+  "signature": {
+    "name": "twoSum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer[]",
+      "size": 2
+    },
+    "manual": false
+  }
+}
