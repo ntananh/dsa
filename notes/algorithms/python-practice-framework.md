@@ -101,11 +101,9 @@ Time:  O(?)
 Space: O(?)
 """
 
-from typing import List
-
 # @lc code=start
 class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
+    def containsDuplicate(self, nums: list[int]) -> bool:
         pass
 # @lc code=end
 ```
@@ -223,6 +221,17 @@ Checked 2026-11-25 with a public request (no login) to `https://leetcode.com/gra
 * `exampleTestcases` is `"[1,2,3,1]\n[1,2,3,4]\n[1,1,1,3,3,4,3,2,4,2]"`: all example inputs joined by `\n`. For n parameters, every n lines form one case.
 * `metaData` is a JSON string inside the JSON, with `\r\n` line endings. It must be decoded a second time. Its shape matches `signature` in section 5.4.
 * No expected outputs in these fields.
+
+Phase 0 public probe, 2026-11-25, problems 217, 1, 206, 104, 155, 88, 3110. All matched:
+
+* Slug lookup works: `questionList(filters: {searchKeywords: "<id>"})`, then pick the row whose `questionFrontendId` equals the id.
+* Expected outputs parse from `content` for both HTML layouts (old `<pre>` blocks and the newer `<p>` example blocks). Count matched the inputs every time.
+* `questionId` can differ from the problem number: 3110 has `questionId` 3379. `meta.json` must keep both.
+* The python3 starter uses built-in generics (`list[int]`), so `solution.py` needs no `typing` import.
+* `ListNode` and `TreeNode` appear as type names in `params` and `return`. The starter code holds their definitions as comments.
+* In-place problems have `return.type` `void` and `"output": {"paramindex": 0}`, the index of the argument to compare (88).
+* Design problems have `classname`, `constructor`, `methods` (each with typed `params` and `return`) and `"systemdesign": true`, and take two input lines per case (155).
+* Unknown: the meaning of `"manual": false` on 1 (Two Sum). Two Sum accepts either order, so it is not an any-order flag. Any-order answers still need a compare override for each problem.
 
 ## 8. Phases
 
